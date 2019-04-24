@@ -1,15 +1,16 @@
-import axios from 'axios';
-import { GET_ERRORS, SET_CURRENT_USER } from '../../../common/actions/types';
-import setAuthToken from '../../../setAuthToken';
-import jwt_decode from 'jwt-decode';
+import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE } from '../../../common/actions/types';
+import { RSAA } from 'redux-api-middleware';
 
-export const registerUser = (user, history) => dispatch => {
-    axios.post('https://theorganizer.azurewebsites.net/api/users/register', user)
-            .then(res => history.push('/login'))
-            .catch(err => {
-                dispatch({
-                    type: GET_ERRORS,
-                    payload: err.response.data
-                });
-            });
-}
+export const registerUser = (user, history) => (dispatch, getState) => dispatch({
+    [RSAA]: {
+        endpoint: 'https://theorganizer.azurewebsites.net/api/users/register',
+        method: 'POST',
+        body: JSON.stringify(user),
+        headers: { 'Content-Type': 'application/json' },
+        types: [REGISTER_REQUEST, 
+            {
+                type: REGISTER_SUCCESS,
+                payload: (action, state, res)=> res.json().then(res => history.push('/login'))
+            }, REGISTER_FAILURE]
+        }       
+})
