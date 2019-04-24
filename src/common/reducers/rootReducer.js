@@ -1,8 +1,9 @@
-import { combineReducers } from 'redux';
-import errorReducer from './errorReducer';
-import authReducer from '../../components/login/reducers/authReducer';
+import { combineReducers } from "redux";
+import errorReducer from "./errorReducer";
+import authReducer from "../../components/Login/redux/reducer";
+import navbarReducer from "../../components/Navbar/redux/reducer";
 
 export default combineReducers({
-    errors: errorReducer,
-    auth: authReducer
+  auth: authReducer,
+  navbar: navbarReducer
 });
