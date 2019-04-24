@@ -6,9 +6,6 @@ import { logoutUser } from './actions/logout';
 import { withRouter } from 'react-router-dom';
 import { NavDropdown, NavbarBrand } from 'react-bootstrap'
 
-import { Translate } from "react-localize-redux";
-
-
 class Navbar extends Component {
     
     onLogout(e) {
@@ -30,7 +27,7 @@ class Navbar extends Component {
                 </NavDropdown>
                 <li className="nav-item">
                     <a href="" className="nav-link" onClick={this.onLogout.bind(this)}>
-                        <img src={user.avatar} alt={user.name} title={user.name}
+                        <img src={user.avatar||"http://www.gravatar.com/avatar"} alt={user.name} title={user.name}
                             className="rounded-circle"
                             style={{ width: '25px', marginRight: '5px'}} />
                              Logout

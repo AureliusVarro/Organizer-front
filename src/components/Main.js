@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Navbar from './Navbar/Navbar';
 import Register from './register/Register';
 import Login from './login/Login';
+import Calendar from './Calendar/calendar'
 import { renderToStaticMarkup } from "react-dom/server";
 
 class Main extends Component {
@@ -10,9 +11,10 @@ class Main extends Component {
     render() {
         return (
             <Router>
-            <div>
-              <Navbar />
+              <div>
+                <Navbar/>
                 <div className="container">
+                  <Route exact path="/" component={ Calendar } />
                   <Route exact path="/register" component={ Register } />
                   <Route exact path="/login" component={ Login } />
                 </div>

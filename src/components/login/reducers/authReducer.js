@@ -1,5 +1,7 @@
-import { SET_CURRENT_USER } from '../../../common/actions/types';
+import { SET_CURRENT_USER, LOGIN_SUCCESS } from '../../../common/actions/types';
 import isEmpty from '../../../validation/is-empty';
+import jwt_decode from 'jwt-decode';
+import setAuthToken from '../../../setAuthToken';
 
 const initialState = {
     isAuthenticated: false,
@@ -13,6 +15,17 @@ export default function(state = initialState, action ) {
                 ...state,
                 isAuthenticated: !isEmpty(action.payload),
                 user: action.payload
+            }
+        case LOGIN_SUCCESS:
+            const { token } = action.payload;
+            localStorage.setItem('jwtToken', token);
+            setAuthToken(token);
+            const decoded = jwt_decode(token);
+            console.log(decoded);
+            return{
+                ...state,
+                isAuthenticated: !isEmpty(decoded),
+                user: decoded
             }
         default: 
             return state;

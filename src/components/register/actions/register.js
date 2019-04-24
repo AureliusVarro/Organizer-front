@@ -4,7 +4,7 @@ import setAuthToken from '../../../setAuthToken';
 import jwt_decode from 'jwt-decode';
 
 export const registerUser = (user, history) => dispatch => {
-    axios.post('https://agrotest.herokuapp.com/api/users', user)
+    axios.post('https://theorganizer.azurewebsites.net/api/users/register', user)
             .then(res => history.push('/login'))
             .catch(err => {
                 dispatch({
