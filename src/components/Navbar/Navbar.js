@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logoutUser } from "./redux/action-creators";
+import { logoutUser, getCurrentUser } from "./redux/action-creators";
 import { withRouter } from "react-router-dom";
 import { NavDropdown, NavbarBrand } from "react-bootstrap";
 import GuestLinks from "./components/GuestLinks";
@@ -13,8 +13,13 @@ class Navbar extends Component {
     this.props.logoutUser(this.props.history);
   }
 
+  componentDidUpdate() {
+    this.props.getCurrentUser();
+  }
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
+    console.log("user:", user.name);
 
     const authLinks = (
       <ul className="nav navbar-nav ml-auto">
@@ -35,25 +40,11 @@ class Navbar extends Component {
         </li>
       </ul>
     );
-    const guestLinks = (
-      <ul className="navbar-nav ml-auto">
-        <li className="nav-item">
-          <Link className="nav-link" to="/register">
-            Sign Up
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/login">
-            Sign In
-          </Link>
-        </li>
-      </ul>
-    );
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <NavbarBrand href="/?mode=view">Organizer</NavbarBrand>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          {isAuthenticated ? authLinks : guestLinks}
+          {isAuthenticated ? authLinks : <GuestLinks />}
         </div>
       </nav>
     );
@@ -61,6 +52,7 @@ class Navbar extends Component {
 }
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
+  getCurrentUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -70,5 +62,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logoutUser }
+  { logoutUser, getCurrentUser }
 )(withRouter(Navbar));

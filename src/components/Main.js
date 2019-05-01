@@ -4,6 +4,8 @@ import Navbar from "./Navbar/Navbar";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import Calendar from "./Calendar/Calendar";
+import SideMenu from "./SideMenu/SideMenu";
+import Grid from "@material-ui/core/Grid";
 import { renderToStaticMarkup } from "react-dom/server";
 
 class Main extends Component {
@@ -12,8 +14,8 @@ class Main extends Component {
       <Router>
         <div>
           <Navbar />
-          <div className="container">
-            <Route exact path="/" component={Calendar} />
+          <div>
+            <Route exact path="/" component={SideMenu} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
           </div>

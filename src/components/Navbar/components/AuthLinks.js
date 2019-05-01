@@ -21,3 +21,9 @@ class AuthLinks extends Component {
     </ul>;
   }
 }
+
+AuthLinks.propTypes = {
+  logoutUser: PropTypes.func.isRequired
+};
+
+export default connect({ logoutUser })(withRouter(AuthLinks));

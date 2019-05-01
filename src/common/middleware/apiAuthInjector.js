@@ -10,7 +10,7 @@ export default function() {
       if (callApi) {
         // Inject the Authorization header from localStorage.
         callApi.headers = Object.assign({}, callApi.headers, {
-          Authorization: ls.get("id_token") || ""
+          Authorization: "Bearer " + ls.get("jwtToken") || ""
         });
       }
 

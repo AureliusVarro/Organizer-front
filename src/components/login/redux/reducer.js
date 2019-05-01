@@ -11,6 +11,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case SET_CURRENT_USER:
+      console.log("set_user", action.payload);
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
@@ -20,12 +21,12 @@ export default function(state = initialState, action) {
       const { token } = action.payload;
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
+      //TODO: remove this
       const decoded = jwt_decode(token);
-      console.log(decoded);
+      console.log("decoded", decoded);
       return {
         ...state,
-        isAuthenticated: !isEmpty(decoded),
-        user: decoded
+        isAuthenticated: !isEmpty(decoded)
       };
     default:
       return state;
