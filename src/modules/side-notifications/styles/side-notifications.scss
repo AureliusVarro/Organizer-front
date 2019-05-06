@@ -1,0 +1,32 @@
+.side-notifications {
+  position: fixed;
+  overflow-x: hidden;
+  top: 0;
+  right: 0;
+  max-height: 100%;
+  z-index: 15;
+}
+
+.side-notification-animation-enter {
+  opacity: 0;
+  transform: translateX(320px);
+  transition: opacity 200ms linear, transform 200ms linear;
+
+  &.side-notification-animation-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 200ms linear, transform 200ms linear;
+  }
+}
+
+.side-notification-animation-exit {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 200ms linear, transform 200ms linear;
+
+  &.side-notification-animation-exit-active {
+    opacity: 0;
+    transform: translateX(320px);
+    transition: opacity 200ms linear, transform 200ms linear;
+  }
+}

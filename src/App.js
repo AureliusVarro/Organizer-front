@@ -1,42 +1,27 @@
-import React, { Component } from "react";
-import { Provider } from "react-redux";
-import store from "./store";
-import jwt_decode from "jwt-decode";
-import setAuthToken from "./setAuthToken";
-import {
-  setCurrentUser,
-  logoutUser
-} from "./components/Navbar/redux/action-creators";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { Provider } from 'react-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 
-import { LocalizeProvider } from "react-localize-redux";
+import AppRouting from './pages/AppRouting';
+import LayoutManagerContainer from './modules/layout-manager/LayoutManagerContainer';
+import SideNotificationsContainer from './modules/side-notifications/SideNotificationsContainer';
+import configureStore from './configure-store';
 
-import Main from "./components/Main";
+const history = createBrowserHistory();
+const store = configureStore(history);
+syncHistoryWithStore(history, store);
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
-//TODO: remove this
-if (localStorage.jwtToken) {
-  setAuthToken(localStorage.jwtToken);
-  const decoded = jwt_decode(localStorage.jwtToken);
-  store.dispatch(setCurrentUser(decoded));
-
-  const currentTime = Date.now() / 1000;
-  if (decoded.exp < currentTime) {
-    store.dispatch(logoutUser());
-    window.location.href = "/login";
-  }
-}
-
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <LocalizeProvider>
-          <Main />
-        </LocalizeProvider>
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <BrowserRouter>
+      <SideNotificationsContainer />
+      <LayoutManagerContainer>
+        <AppRouting />
+      </LayoutManagerContainer>
+    </BrowserRouter>
+  </Provider>
+);
 
 export default App;

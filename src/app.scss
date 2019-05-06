@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  // importent for slik slider (because we use flex-box layouts)
+  min-height: 0;
+  min-width: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body,
+#approot {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+html,
+body {
+  background-color: #fff;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+#approot {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: inherit;
+  position: fixed;
+}
