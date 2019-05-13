@@ -50,7 +50,9 @@ class LayoutManager extends React.Component {
       currentUser,
       isOpenedSidebar,
       signinUserStatus,
-      loadCurrentUserStatus
+      loadCurrentUserStatus,
+      isOpenedAddEventDialog,
+      isOpenedAddCalendarDialog
     } = this.props;
 
     if (
@@ -63,6 +65,9 @@ class LayoutManager extends React.Component {
           onToggleSidebar={onToggleSidebar}
           currentUser={currentUser}
           onLogout={this.onLogout}
+          pathname={this.props.location.pathname}
+          onToggleAddEventDialog={this.props.onToggleAddEventDialog}
+          onToggleAddCalendarDialog={this.props.onToggleAddCalendarDialog}
         >
           {children}
         </MainLayout>

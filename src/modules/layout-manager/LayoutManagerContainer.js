@@ -1,23 +1,33 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import LayoutManager from './components/LayoutManager';
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import LayoutManager from "./components/LayoutManager";
 
 import {
   resetCurrentUser,
   getCurrentUser
-} from '../../common/redux/action-creators';
+} from "../../common/redux/action-creators";
 
-import { onToggleSidebar } from './redux/action-creators';
+import {
+  onToggleAddCalendarDialog,
+  onToggleAddEventDialog,
+  getCalendars
+} from "../calendar/redux/action-creators";
+
+import { onToggleSidebar } from "./redux/action-creators";
 
 const mapStateToProps = state => ({
   ...state.common,
-  ...state.layoutManager
+  ...state.layoutManager,
+  ...state.calendar
 });
 
 const mapDispatchToProps = {
   onToggleSidebar,
   resetCurrentUser,
-  getCurrentUser
+  getCurrentUser,
+  onToggleAddCalendarDialog,
+  onToggleAddEventDialog,
+  getCalendars
 };
 
 const LayoutManagerContainer = connect(

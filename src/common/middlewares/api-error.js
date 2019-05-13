@@ -1,5 +1,5 @@
-import { showSideNotification } from '../../modules/side-notifications/redux/action-creators';
-import { messagessLevel } from '../../common/constants/common';
+import { showSideNotification } from "../../modules/side-notifications/redux/action-creators";
+import { messagessLevel } from "../../common/constants/common";
 
 /*
 Error model

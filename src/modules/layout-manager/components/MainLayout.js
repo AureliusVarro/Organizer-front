@@ -1,51 +1,56 @@
-import React from 'react';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import Menu from '@material-ui/core/Menu';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import { blue } from '@material-ui/core/colors';
+import React from "react";
+import moment from "moment";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+import classNames from "classnames";
+import { withStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import Menu from "@material-ui/core/Menu";
+import IconButton from "@material-ui/core/IconButton";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import MenuItem from "@material-ui/core/MenuItem";
+import { blue } from "@material-ui/core/colors";
 
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import ContactsIcon from '@material-ui/icons/Contacts';
-import NotesIcon from '@material-ui/icons/Notes';
-import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
-import EventIcon from '@material-ui/icons/Event';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import ContactsIcon from "@material-ui/icons/Contacts";
+import NotesIcon from "@material-ui/icons/Notes";
+import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
+import EventIcon from "@material-ui/icons/Event";
+import MenuIcon from "@material-ui/icons/Menu";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import AddIcon from "@material-ui/icons/Add";
 
-import internalUrls from '../../../common/constants/internal-urls';
+import internalUrls from "../../../common/constants/internal-urls";
+
+import CalendarsDialogContainer from "../../calendar/components/CalendarsDialogContainer";
+import CalendarList from "../../calendar/components/CalendarList";
 
 const DRAWER_WIDTH_OPENED = 240;
 const DRAWER_WIDTH_CLOSED = 60;
 
 const styles = theme => ({
   rootLayout: {
-    overflow: 'hidden',
+    overflow: "hidden",
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    position: 'fixed',
-    display: 'flex',
-    flexDirection: 'column'
+    position: "fixed",
+    display: "flex",
+    flexDirection: "column"
   },
   logoTypography: {
     flexGrow: 1,
-    fontSize: '1.7em !important'
+    fontSize: "1.7em !important"
   },
   appBar: {
     zIndex: 3,
@@ -53,54 +58,54 @@ const styles = theme => ({
   },
   opened: {
     width: DRAWER_WIDTH_OPENED,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.easeIn,
       duration: theme.transitions.duration.enteringScreen
     })
   },
   closed: {
     width: DRAWER_WIDTH_CLOSED,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.leavingScreen
     })
   },
   navItemTextBox: {
-    whiteSpace: 'nowrap'
+    whiteSpace: "nowrap"
   },
   mainContainer: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     flexGrow: 1
   },
   menuButton: {
-    marginRight: '20px'
+    marginRight: "20px"
   },
   userName: {
-    paddingLeft: '10px'
+    paddingLeft: "10px"
   },
   toolbar: {
-    paddingLeft: '3px',
-    paddingRight: '10px'
+    paddingLeft: "3px",
+    paddingRight: "10px"
   },
   dateTime: {
-    padding: '17px',
-    fontSize: '1.5em'
+    padding: "17px",
+    fontSize: "1.5em"
   },
   navLinkBtn: {
-    '&.active': {
-      backgroundColor: 'rgba(0, 0, 0, 0.08)'
+    "&.active": {
+      backgroundColor: "rgba(0, 0, 0, 0.08)"
     }
   },
   drawerRoot: {
-    overflowX: 'hidden',
-    position: 'static',
-    backgroundColor: '#e5e5e5'
+    overflowX: "hidden",
+    position: "static",
+    backgroundColor: "#e5e5e5"
   },
   paperRoot: {
-    overflowX: 'hidden',
-    position: 'static',
-    backgroundColor: 'inherit'
+    overflowX: "hidden",
+    position: "static",
+    backgroundColor: "inherit"
   },
   content: {
     flexGrow: 1
@@ -122,18 +127,61 @@ class MainLayout extends React.Component {
 
   render() {
     const {
+      pathname,
       classes,
       children,
       onLogout,
       currentUser,
       isOpenedSidebar,
-      onToggleSidebar
+      onToggleSidebar,
+      onToggleAddEventDialog,
+      onToggleAddCalendarDialog
     } = this.props;
 
     const isOpenUserMenu = Boolean(this.state.anchorEl);
 
+    let addButton = null;
+    console.log(internalUrls.HOME.path);
+    if (pathname === internalUrls.HOME.path) {
+      addButton = (
+        <Button onClick={onToggleAddEventDialog} color="inherit">
+          Add Event
+        </Button>
+      );
+    } else if (pathname === internalUrls.TODO.path) {
+      addButton = (
+        <Button onClick={onToggleAddEventDialog} color="inherit">
+          Add ToDo
+        </Button>
+      );
+    } else if (pathname === internalUrls.NOTES.path) {
+      addButton = (
+        <Button onClick={onToggleAddEventDialog} color="inherit">
+          Add Note
+        </Button>
+      );
+    } else if (pathname === internalUrls.CONTACTS.path) {
+      addButton = (
+        <Button onClick={onToggleAddEventDialog} color="inherit">
+          Add Contact
+        </Button>
+      );
+    }
+
+    let addCalendarButton = null;
+    if (pathname === internalUrls.HOME.path)
+      addCalendarButton = (
+        <IconButton aria-label="AddCalendar">
+          <AddIcon />
+        </IconButton>
+      );
+
+    let calendarList = null;
+    if (pathname === internalUrls.HOME.path) calendarList = <CalendarList />;
+
     return (
       <div className={classes.rootLayout}>
+        <CalendarsDialogContainer />
         <AppBar position="static" className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
             <IconButton
@@ -152,8 +200,10 @@ class MainLayout extends React.Component {
               The Organizer
             </Typography>
 
+            {addButton}
+
             <Button
-              aria-owns={isOpenUserMenu ? 'menu-appbar' : undefined}
+              aria-owns={isOpenUserMenu ? "menu-appbar" : undefined}
               aria-haspopup="true"
               onClick={this.handleOpenUserMenu}
               color="inherit"
@@ -166,12 +216,12 @@ class MainLayout extends React.Component {
               id="menu-appbar"
               anchorEl={this.state.anchorEl}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
+                vertical: "top",
+                horizontal: "right"
               }}
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
+                vertical: "top",
+                horizontal: "right"
               }}
               open={isOpenUserMenu}
               onClose={this.handleCloseUserMenu}
@@ -203,7 +253,7 @@ class MainLayout extends React.Component {
                 color="default"
                 className={classes.dateTime}
               >
-                {moment().format('MMM DD, YYYY')}
+                {moment().format("MMM DD, YYYY")}
               </Typography>
             )}
 
@@ -219,12 +269,22 @@ class MainLayout extends React.Component {
                   <EventIcon />
                 </ListItemIcon>
                 {isOpenedSidebar && (
-                  <ListItemText
-                    className={classes.navItemTextBox}
-                    primary={internalUrls.HOME.linkTitle}
-                  />
+                  <div>
+                    <ListItemText
+                      className={classes.navItemTextBox}
+                      primary={internalUrls.HOME.linkTitle}
+                    />
+                    <ListItemSecondaryAction
+                      onClick={onToggleAddCalendarDialog}
+                    >
+                      {addCalendarButton}
+                    </ListItemSecondaryAction>
+                  </div>
                 )}
               </ListItem>
+
+              {calendarList}
+
               <ListItem
                 button
                 component={NavLink}
@@ -286,12 +346,16 @@ MainLayout.propTypes = {
   classes: PropTypes.object,
   currentUser: PropTypes.object,
   isOpenedSidebar: PropTypes.bool,
+  isOpenedAddEventDialog: PropTypes.bool,
+  isOpenedAddCalendarDialog: PropTypes.bool,
   children: PropTypes.any
 };
 
 MainLayout.defaultProps = {
   currentUser: {},
   isOpenedSidebar: true,
+  isOpenedAddEventDialog: false,
+  isOpenedAddCalendarDialog: false,
   children: null
 };
 

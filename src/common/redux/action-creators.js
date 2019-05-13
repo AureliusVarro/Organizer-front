@@ -34,7 +34,7 @@ export const signInUser = credentials => dispatch =>
           type: actionTypes.USER_SIGN_IN_SUCCESS,
           payload: (action, state, res) =>
             getJSON(res).then(json => {
-              if (ls.set(tokenKey, json.Result.token)) {
+              if (ls.set(tokenKey, json.token)) {
                 dispatch(getCurrentUser());
               }
             })

@@ -1,9 +1,19 @@
-import { connect } from 'react-redux';
-import Calendar from './Calendar';
+import { connect } from "react-redux";
+import Calendar from "./Calendar";
 
-const mapStateToProps = state => {};
+import {
+  onToggleAddEventDialog,
+  onTempEventUpdated,
+  getEvents
+} from "./redux/action-creators";
 
-const mapDispatchToProps = {};
+const mapStateToProps = state => ({ ...state.calendar });
+
+const mapDispatchToProps = {
+  onToggleAddEventDialog,
+  onTempEventUpdated,
+  getEvents
+};
 
 const CalendarContainer = connect(
   mapStateToProps,

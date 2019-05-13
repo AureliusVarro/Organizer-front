@@ -1,14 +1,14 @@
-import React from 'react';
-import moment from 'moment';
-import 'moment/locale/en-gb';
-import BigCalendar from 'react-big-calendar';
-import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import React from "react";
+import moment from "moment";
+import "moment/locale/en-gb";
+import BigCalendar from "react-big-calendar";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
-import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './calendar.scss';
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./calendar.scss";
 
-moment.locale('en-gb');
+moment.locale("en-gb");
 const localizer = BigCalendar.momentLocalizer(moment);
 
 const DnDBigCalendar = withDragAndDrop(BigCalendar);
@@ -21,42 +21,47 @@ class Calendar extends React.Component {
       events: [
         {
           id: 7,
-          title: 'Lunch',
-          start: new Date(2019, 4, 1, 12, 0, 0, 0),
+          title: "Lunch",
+          start: "2011-10-05T14:48:00.000Z",
           end: new Date(2019, 4, 1, 13, 0, 0, 0),
-          desc: 'Power lunch'
+          desc: "Power lunch"
         },
         {
           id: 8,
-          title: 'Meeting',
+          title: "Meeting",
           start: new Date(2019, 4, 1, 14, 0, 0, 0),
           end: new Date(2019, 4, 1, 15, 0, 0, 0)
         },
         {
           id: 9,
-          title: 'Happy Hour',
+          title: "Happy Hour",
           start: new Date(2019, 4, 1, 17, 0, 0, 0),
           end: new Date(2019, 4, 1, 17, 30, 0, 0),
-          desc: 'Most important meal of the day'
+          desc: "Most important meal of the day"
         }
       ]
     };
   }
 
   onEventResize = eventProps => {
-    console.log(eventProps);
+    console.log("onEventResize: ", eventProps);
   };
 
   onEventDrop = eventProps => {
-    console.log(eventProps);
+    console.log("onEventDrop: ", eventProps);
   };
 
-  handleSelectEventSlot = calendarProos => {
-    console.log(calendarProos);
+  handleSelectEventSlot = calendarProps => {
+    let updTempEvent = this.props.tempEvent;
+    updTempEvent.start = calendarProps.start.toISOString();
+    updTempEvent.end = calendarProps.end.toISOString();
+    console.log("handleSelectEventSlot: ", updTempEvent);
+    this.props.onTempEventUpdated(updTempEvent);
+    this.props.onToggleAddEventDialog();
   };
 
   handleSelectEvent = eventProps => {
-    console.log(eventProps);
+    console.log("handleSelectEvent: ", eventProps);
   };
 
   render() {
@@ -64,7 +69,7 @@ class Calendar extends React.Component {
       <DnDBigCalendar
         selectable
         resizable
-        events={this.state.events}
+        events={this.props.events}
         defaultView={BigCalendar.Views.MONTH}
         onSelectEvent={this.handleSelectEvent}
         onSelectSlot={this.handleSelectEventSlot}
