@@ -13,12 +13,18 @@ import {
   getCalendars
 } from "../calendar/redux/action-creators";
 
+import {
+  onToggleAddTodoListDialog,
+  getTodoLists
+} from "../todo/redux/action-creators";
+
 import { onToggleSidebar } from "./redux/action-creators";
 
 const mapStateToProps = state => ({
   ...state.common,
   ...state.layoutManager,
-  ...state.calendar
+  ...state.calendar,
+  ...state.todo
 });
 
 const mapDispatchToProps = {
@@ -27,7 +33,9 @@ const mapDispatchToProps = {
   getCurrentUser,
   onToggleAddCalendarDialog,
   onToggleAddEventDialog,
-  getCalendars
+  getCalendars,
+  onToggleAddTodoListDialog,
+  getTodoLists
 };
 
 const LayoutManagerContainer = connect(

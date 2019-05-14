@@ -15,12 +15,6 @@ import {
   DatePicker
 } from "material-ui-pickers";
 
-import {
-  onToggleAddEventDialog,
-  onTempEventUpdated,
-  addEvent
-} from "../../redux/action-creators";
-
 export default class AddEventDialog extends React.Component {
   handleDateChange = newDate => {
     let date = new Date(newDate);

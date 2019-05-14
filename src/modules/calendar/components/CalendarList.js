@@ -17,7 +17,7 @@ import {
 
 const styles = theme => ({
   indent: {
-    marginLeft: "40px"
+    marginLeft: "32px"
   },
   margin: { margin: 0 }
 });
@@ -26,10 +26,6 @@ class CalendarList extends React.Component {
   state = {
     open: false
   };
-
-  componentDidMount() {
-    //this.props.getCalendars();
-  }
 
   handleStuff = item => event => {
     item.isDisplayed = event.target.checked;
@@ -43,7 +39,7 @@ class CalendarList extends React.Component {
 
   trimTitle = title => {
     if (title) {
-      if (title.length <= 12) return title;
+      if (title.length <= 10) return title;
       else return title.substring(0, 10) + "...";
     } else return "NULL";
   };
@@ -74,7 +70,7 @@ class CalendarList extends React.Component {
                 className={classes.margin}
                 onClick={this.toggleEditCalendarDialog(item)}
               >
-                <EditIcon fontSize="small" />
+                <EditIcon className={classes.margin} fontSize="small" />
               </IconButton>
             </FormGroup>
           </div>

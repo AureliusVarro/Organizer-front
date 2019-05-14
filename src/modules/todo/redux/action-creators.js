@@ -4,172 +4,92 @@ import * as actionTypes from "./action-types";
 import apiUrls from "../../../common/constants/api-urls";
 import { jsonRequestHeader } from "../../../common/constants/common";
 
-export const onToggleAddCalendarDialog = () => ({
-  type: actionTypes.TOGGLE_ADD_CALENDAR_DIALOG
+export const onToggleAddTodoListDialog = () => ({
+  type: actionTypes.TOGGLE_ADD_TODOLIST_DIALOG
+});
+export const onToggleEditTodoListDialog = () => ({
+  type: actionTypes.TOGGLE_EDIT_TODOLIST_DIALOG
 });
 
-export const onToggleAddEventDialog = () => ({
-  type: actionTypes.TOGGLE_ADD_EVENT_DIALOG
-});
-
-export const onToggleEditCalendarDialog = () => ({
-  type: actionTypes.TOGGLE_EDIT_CALENDAR_DIALOG
-});
-
-export const onTempEventUpdated = tempEventData => ({
-  type: actionTypes.UPDATE_TEMP_EVENT,
-  payload: tempEventData || {
-    title: "New Event",
-    startTime: new Date().toISOString(),
-    endTime: new Date().toISOString(),
-    calendarId: 1
+export const onTempTodoListUpdated = tempTodoListData => ({
+  type: actionTypes.UPDATE_TEMP_TODOLIST,
+  payload: tempTodoListData || {
+    title: "New Todo List"
   }
 });
 
-export const onTempCalendarUpdated = tempCalendarData => ({
-  type: actionTypes.UPDATE_TEMP_CALENDAR,
-  payload: tempCalendarData || {
-    title: "New Calendar"
-  }
-});
-
-export const saveCalendars = calendars => ({
-  type: actionTypes.SAVE_CALENDARS,
-  payload: calendars
-});
-
-export const getCalendars = () => dispatch =>
+export const getTodoLists = () => dispatch =>
   dispatch({
     [RSAA]: {
       method: "GET",
-      endpoint: apiUrls.GET_CALENDARS,
+      endpoint: apiUrls.GET_TODOLISTS,
       headers: jsonRequestHeader,
       types: [
-        actionTypes.GET_CALENDARS_REQUEST,
-        {
-          type: actionTypes.GET_CALENDARS_SUCCESS,
-          payload: (action, state, res) =>
-            getJSON(res).then(json => {
-              dispatch(saveCalendars(json));
-              dispatch(getAllEvents());
-            })
-        },
-        actionTypes.GET_CALENDARS_FAILURE
+        actionTypes.GET_TODOLISTS_REQUEST,
+        actionTypes.GET_TODOLISTS_SUCCESS,
+        actionTypes.GET_TODOLISTS_FAILURE
       ]
     }
   });
 
-export const addCalendar = calendarData => dispatch =>
+export const addTodoList = todoListData => dispatch =>
   dispatch({
     [RSAA]: {
       method: "POST",
-      endpoint: apiUrls.ADD_CALENDAR,
-      body: JSON.stringify(calendarData),
+      endpoint: apiUrls.ADD_TODOLIST,
+      body: JSON.stringify(todoListData),
       headers: jsonRequestHeader,
       types: [
-        actionTypes.ADD_CALENDAR_REQUEST,
+        actionTypes.ADD_TODOLIST_REQUEST,
         {
-          type: actionTypes.ADD_CALENDAR_SUCCESS,
+          type: actionTypes.ADD_TODOLIST_SUCCESS,
           payload: (action, state, res) =>
             getJSON(res).then(json => {
-              dispatch(getCalendars());
+              dispatch(getTodoLists());
             })
         },
-        actionTypes.ADD_CALENDAR_FAILURE
+        actionTypes.ADD_TODOLIST_FAILURE
       ]
     }
   });
 
-export const editCalendar = calendar => dispatch =>
+export const editTodoList = todoList => dispatch =>
   dispatch({
     [RSAA]: {
       method: "PUT",
-      endpoint: apiUrls.EDIT_CALENDAR,
-      body: JSON.stringify(calendar),
+      endpoint: apiUrls.EDIT_TODOLIST,
+      body: JSON.stringify(todoList),
       headers: jsonRequestHeader,
       types: [
-        actionTypes.EDIT_CALENDAR_REQUEST,
+        actionTypes.EDIT_TODOLIST_REQUEST,
         {
-          type: actionTypes.EDIT_CALENDAR_SUCCESS,
+          type: actionTypes.EDIT_TODOLIST_SUCCESS,
           payload: (action, state, res) =>
             getJSON(res).then(json => {
-              dispatch(getCalendars());
+              dispatch(getTodoLists());
             })
         },
-        actionTypes.EDIT_CALENDAR_FAILURE
+        actionTypes.EDIT_TODOLIST_FAILURE
       ]
     }
   });
 
-export const deleteCalendar = calendar => dispatch =>
+export const deleteTodoList = todoList => dispatch =>
   dispatch({
     [RSAA]: {
       method: "DELETE",
-      endpoint: apiUrls.DELETE_CALENDAR + "/" + calendar.id,
+      endpoint: apiUrls.DELETE_CALENDAR + "/" + todoList.id,
       headers: jsonRequestHeader,
       types: [
-        actionTypes.DELETE_CALENDAR_REQUEST,
+        actionTypes.DELETE_TODOLIST_REQUEST,
         {
-          type: actionTypes.DELETE_CALENDAR_SUCCESS,
+          type: actionTypes.DELETE_TODOLIST_SUCCESS,
           payload: (action, state, res) =>
             getJSON(res).then(json => {
-              dispatch(getCalendars());
+              dispatch(getTodoLists());
             })
         },
-        actionTypes.DELETE_CALENDAR_FAILURE
-      ]
-    }
-  });
-
-export const clearEvents = () => ({
-  type: actionTypes.CLEAR_EVENTS
-});
-
-export const getEvents = calendarId => dispatch =>
-  dispatch({
-    [RSAA]: {
-      method: "GET",
-      endpoint: apiUrls.GET_EVENTS + "/" + calendarId,
-      headers: jsonRequestHeader,
-      types: [
-        actionTypes.GET_EVENTS_REQUEST,
-        actionTypes.GET_EVENTS_SUCCESS,
-        actionTypes.GET_EVENTS_FAILURE
-      ]
-    }
-  });
-
-export const getAllEvents = () => (dispatch, getState) => {
-  dispatch(clearEvents());
-  if (getState().calendar.calendars[0]) {
-    let checkedCalenderIds = [];
-    getState().calendar.calendars.map(item => {
-      if (item.isDisplayed) checkedCalenderIds.push(item.id);
-    });
-    checkedCalenderIds.map(item => {
-      dispatch(getEvents(item));
-    });
-  }
-};
-
-export const addEvent = eventData => dispatch =>
-  dispatch({
-    [RSAA]: {
-      method: "POST",
-      endpoint: apiUrls.ADD_EVENT,
-      body: JSON.stringify(eventData),
-      headers: jsonRequestHeader,
-      types: [
-        actionTypes.ADD_EVENT_REQUEST,
-        {
-          type: actionTypes.ADD_EVENT_SUCCESS,
-          payload: (action, state, res) =>
-            getJSON(res).then(json => {
-              console.log("TEST", eventData.start.toString);
-              dispatch(getCalendars());
-            })
-        },
-        actionTypes.ADD_EVENT_FAILURE
+        actionTypes.DELETE_TODOLIST_FAILURE
       ]
     }
   });

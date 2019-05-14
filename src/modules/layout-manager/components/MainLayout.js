@@ -34,6 +34,9 @@ import internalUrls from "../../../common/constants/internal-urls";
 import CalendarsDialogContainer from "../../calendar/components/CalendarsDialogContainer";
 import CalendarList from "../../calendar/components/CalendarList";
 
+import TodoListDialogContainer from "../../todo/components/TodoListDialogContainer";
+import TodoListList from "../../todo/components/TodoListList";
+
 const DRAWER_WIDTH_OPENED = 240;
 const DRAWER_WIDTH_CLOSED = 60;
 
@@ -135,13 +138,13 @@ class MainLayout extends React.Component {
       isOpenedSidebar,
       onToggleSidebar,
       onToggleAddEventDialog,
-      onToggleAddCalendarDialog
+      onToggleAddCalendarDialog,
+      onToggleAddTodoListDialog
     } = this.props;
 
     const isOpenUserMenu = Boolean(this.state.anchorEl);
 
     let addButton = null;
-    console.log(internalUrls.HOME.path);
     if (pathname === internalUrls.HOME.path) {
       addButton = (
         <Button onClick={onToggleAddEventDialog} color="inherit">
@@ -171,17 +174,33 @@ class MainLayout extends React.Component {
     let addCalendarButton = null;
     if (pathname === internalUrls.HOME.path)
       addCalendarButton = (
-        <IconButton aria-label="AddCalendar">
-          <AddIcon />
-        </IconButton>
+        <ListItemSecondaryAction onClick={onToggleAddCalendarDialog}>
+          <IconButton aria-label="AddCalendar">
+            <AddIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      );
+
+    let addTodoListButton = null;
+    if (pathname === internalUrls.TODO.path)
+      addTodoListButton = (
+        <ListItemSecondaryAction onClick={onToggleAddTodoListDialog}>
+          <IconButton aria-label="AddTodoList">
+            <AddIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
       );
 
     let calendarList = null;
     if (pathname === internalUrls.HOME.path) calendarList = <CalendarList />;
 
+    let todoListList = null;
+    if (pathname === internalUrls.TODO.path) todoListList = <TodoListList />;
+
     return (
       <div className={classes.rootLayout}>
         <CalendarsDialogContainer />
+        <TodoListDialogContainer />
         <AppBar position="static" className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
             <IconButton
@@ -274,11 +293,7 @@ class MainLayout extends React.Component {
                       className={classes.navItemTextBox}
                       primary={internalUrls.HOME.linkTitle}
                     />
-                    <ListItemSecondaryAction
-                      onClick={onToggleAddCalendarDialog}
-                    >
-                      {addCalendarButton}
-                    </ListItemSecondaryAction>
+                    {addCalendarButton}
                   </div>
                 )}
               </ListItem>
@@ -295,12 +310,18 @@ class MainLayout extends React.Component {
                   <DoneOutlineIcon />
                 </ListItemIcon>
                 {isOpenedSidebar && (
-                  <ListItemText
-                    className={classes.navItemTextBox}
-                    primary={internalUrls.TODO.linkTitle}
-                  />
+                  <div>
+                    <ListItemText
+                      className={classes.navItemTextBox}
+                      primary={internalUrls.TODO.linkTitle}
+                    />
+                    {addTodoListButton}
+                  </div>
                 )}
               </ListItem>
+
+              {todoListList}
+
               <ListItem
                 button
                 component={NavLink}
