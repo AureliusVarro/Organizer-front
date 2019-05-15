@@ -40,6 +40,7 @@ import TodoListList from "../../todo/components/TodoListList";
 import ContactDialogContainer from "../../contacts/components/ContactDialogContainer";
 import NotebookList from "../../notebook/components/NotebookList";
 import NotebookDialogContainer from "../../notebook/components/NotebookDialogContainer";
+import AddItemButtonsManager from "./add-item-buttons/AddItemButtonsManager";
 
 const DRAWER_WIDTH_OPENED = 240;
 const DRAWER_WIDTH_CLOSED = 60;
@@ -172,13 +173,7 @@ class MainLayout extends React.Component {
     let addCalendarButton = null;
     let addTodoListButton = null;
     let addNotebookButton = null;
-    let addButton = null;
     if (pathname === internalUrls.HOME.path) {
-      addButton = (
-        <Button onClick={onToggleAddEventDialog} color="inherit">
-          Add Event
-        </Button>
-      );
       calendarList = <CalendarList />;
       addCalendarButton = (
         <ListItemSecondaryAction onClick={onToggleAddCalendarDialog}>
@@ -188,11 +183,6 @@ class MainLayout extends React.Component {
         </ListItemSecondaryAction>
       );
     } else if (pathname === internalUrls.TODO.path) {
-      addButton = (
-        <Button onClick={this.handleAddTodo} color="inherit">
-          Add ToDo
-        </Button>
-      );
       todoListList = <TodoListList />;
       addTodoListButton = (
         <ListItemSecondaryAction onClick={onToggleAddTodoListDialog}>
@@ -202,11 +192,6 @@ class MainLayout extends React.Component {
         </ListItemSecondaryAction>
       );
     } else if (pathname === internalUrls.NOTES.path) {
-      addButton = (
-        <Button onClick={this.handleAddNote} color="inherit">
-          Add Note
-        </Button>
-      );
       notebookList = <NotebookList />;
       addNotebookButton = (
         <ListItemSecondaryAction onClick={onToggleAddNotebookDialog}>
@@ -214,12 +199,6 @@ class MainLayout extends React.Component {
             <AddIcon />
           </IconButton>
         </ListItemSecondaryAction>
-      );
-    } else if (pathname === internalUrls.CONTACTS.path) {
-      addButton = (
-        <Button onClick={onToggleAddContactDialog} color="inherit">
-          Add Contact
-        </Button>
       );
     }
 
@@ -247,7 +226,13 @@ class MainLayout extends React.Component {
               The Organizer
             </Typography>
 
-            {addButton}
+            <AddItemButtonsManager
+              pathname={pathname}
+              onAddEventClick={onToggleAddEventDialog}
+              onAddTodoClick={this.handleAddTodo}
+              onAddNoteClick={this.handleAddNote}
+              onAddContactClick={onToggleAddContactDialog}
+            />
 
             <Button
               aria-owns={isOpenUserMenu ? "menu-appbar" : undefined}
