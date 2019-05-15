@@ -33,6 +33,7 @@ class CalendarList extends React.Component {
   };
 
   toggleEditCalendarDialog = item => event => {
+    console.log(1);
     this.props.onTempCalendarUpdated({ id: item.id, title: item.title });
     this.props.onToggleEditCalendarDialog();
   };
@@ -88,7 +89,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  ...state.calendar
+  ...state.calendars
 });
 
 export default connect(

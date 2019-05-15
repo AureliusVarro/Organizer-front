@@ -11,23 +11,17 @@ const styles = theme => ({
     height: "100%",
     color: theme.palette.text.secondary
   },
-  todoPaperGrid: {
+  notePaperGrid: {
     height: "100%"
   }
 });
 
-class Todo extends React.Component {
+class Notebook extends React.Component {
   render() {
-    let checkedTodos = [];
-    let uncheckedTodos = [];
-    if (this.props.todos[0]) {
-      this.props.todos.map(item => {});
-    }
-
     return (
-      <div className={classNames.todoPaperGrid}>
+      <div className={classNames.notePaperGrid}>
         <Grid
-          classes={classNames.todoPaperGrid}
+          classes={classNames.notePaperGrid}
           container
           direction="row"
           spacing={24}
@@ -36,8 +30,8 @@ class Todo extends React.Component {
             <Paper className={classNames.paper}>
               <Paper>
                 <Typography variant="h4">
-                  {this.props.currentTodoList
-                    ? this.props.currentTodoList.title
+                  {this.props.currentNotebook
+                    ? this.props.currentNotebook.title
                     : "Loading..."}
                 </Typography>
               </Paper>{" "}
@@ -56,7 +50,7 @@ class Todo extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  ...state.todos
+  ...state.notes
 });
 
 const mapDispatchToProps = {};
@@ -65,5 +59,5 @@ export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Todo)
+  )(Notebook)
 );

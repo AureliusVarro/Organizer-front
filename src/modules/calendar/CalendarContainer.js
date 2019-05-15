@@ -7,7 +7,7 @@ import {
   getEvents
 } from "./redux/action-creators";
 
-const mapStateToProps = state => ({ ...state.calendar });
+const mapStateToProps = state => ({ ...state.calendars });
 
 const mapDispatchToProps = {
   onToggleAddEventDialog,

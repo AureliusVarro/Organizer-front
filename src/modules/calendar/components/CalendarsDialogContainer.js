@@ -94,7 +94,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  ...state.calendar
+  ...state.calendars
 });
 
 export default connect(

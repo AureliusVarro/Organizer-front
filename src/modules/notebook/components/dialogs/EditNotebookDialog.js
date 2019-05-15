@@ -7,54 +7,54 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default class EditTodoListrDialog extends React.Component {
-  handleTodoListTitleChange = title => {
-    let updTempTodoList = this.props.tempTodoList;
-    updTempTodoList.title = title.target.value;
-    this.props.onTempTodoListUpdated(updTempTodoList);
+export default class EditNotebookDialog extends React.Component {
+  handleNotebookTitleChange = title => {
+    let updTempNotebook = this.props.tempNotebook;
+    updTempNotebook.title = title.target.value;
+    this.props.onTempNotebookUpdated(updTempNotebook);
   };
 
   handleClose = () => {
-    this.props.onToggleEditTodoListDialog();
+    this.props.onToggleEditNotebookDialog();
   };
 
-  handleEditTodoList = () => {
-    this.props.editTodoList(this.props.tempTodoList);
+  handleEditNotebook = () => {
+    this.props.editNotebook(this.props.tempNotebook);
   };
 
-  handleDeleteTodoList = () => {
-    this.props.deleteTodoList(this.props.tempTodoList);
+  handleDeleteNotebook = () => {
+    this.props.deleteNotebook(this.props.tempNotebook);
   };
 
   render() {
     return (
       <div>
         <Dialog
-          open={this.props.isOpenedEditTodoListDialog}
+          open={this.props.isOpenedEditNotebookDialog}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Edit TodoList</DialogTitle>
+          <DialogTitle id="form-dialog-title">Edit Notebook</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin="dense"
-              id="todoListTitle"
-              label="TodoList Title"
+              id="notebookTitle"
+              label="Notebook Title"
               fullWidth
-              value={this.props.tempTodoList.title}
-              onChange={this.handleTodoListTitleChange}
+              value={this.props.tempNotebook.title}
+              onChange={this.handleNotebookTitleChange}
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleDeleteTodoList} color="secondary">
+            <Button onClick={this.handleDeleteNotebook} color="secondary">
               Delete
             </Button>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleEditTodoList} color="primary">
-              Edit TodoList
+            <Button onClick={this.handleEditNotebook} color="primary">
+              Edit Notebook
             </Button>
           </DialogActions>
         </Dialog>

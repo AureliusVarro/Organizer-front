@@ -15,16 +15,26 @@ import {
 
 import {
   onToggleAddTodoListDialog,
-  getTodoLists
+  getTodoLists,
+  addTodo
 } from "../todo/redux/action-creators";
+
+import {
+  onToggleAddNotebookDialog,
+  addNote
+} from "../notebook/redux/action-creators";
+
+import { onToggleAddContactDialog } from "../contacts/redux/action-creators";
 
 import { onToggleSidebar } from "./redux/action-creators";
 
 const mapStateToProps = state => ({
   ...state.common,
   ...state.layoutManager,
-  ...state.calendar,
-  ...state.todo
+  ...state.calendars,
+  ...state.todos,
+  ...state.notes,
+  ...state.contacts
 });
 
 const mapDispatchToProps = {
@@ -34,8 +44,15 @@ const mapDispatchToProps = {
   onToggleAddCalendarDialog,
   onToggleAddEventDialog,
   getCalendars,
+  //Todos
   onToggleAddTodoListDialog,
-  getTodoLists
+  getTodoLists,
+  addTodo,
+  //notes
+  onToggleAddNotebookDialog,
+  addNote,
+  //Contacts
+  onToggleAddContactDialog
 };
 
 const LayoutManagerContainer = connect(

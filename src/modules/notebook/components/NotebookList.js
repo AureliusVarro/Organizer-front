@@ -10,12 +10,12 @@ import { IconButton, Typography, Grid, Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 
 import {
-  onToggleEditTodoListDialog,
-  onTempTodoListUpdated,
-  onCurrentTodoListUpdated,
-  getTodoLists,
-  editTodoList,
-  getTodos
+  onToggleEditNotebookDialog,
+  onTempNotebookUpdated,
+  onCurrentNotebookUpdated,
+  getNotebooks,
+  editNotebook,
+  getNotes
 } from "../redux/action-creators";
 
 const styles = theme => ({
@@ -25,15 +25,15 @@ const styles = theme => ({
   margin: { margin: 0 }
 });
 
-class TodoListList extends React.Component {
-  handleUpdateCurrentTodoList = item => event => {
-    this.props.onCurrentTodoListUpdated(item);
-    this.props.getTodos(item);
+class NotebookList extends React.Component {
+  handleUpdateCurrentNotebook = item => event => {
+    this.props.onCurrentNotebookUpdated(item);
+    this.props.getNotes(item);
   };
 
-  toggleEditTodoListDialog = item => event => {
-    this.props.onTempTodoListUpdated({ id: item.id, title: item.title });
-    this.props.onToggleEditTodoListDialog();
+  toggleEditNotebookDialog = item => event => {
+    this.props.onTempNotebookUpdated({ id: item.id, title: item.title });
+    this.props.onToggleEditNotebookDialog();
   };
 
   trimTitle = title => {
@@ -47,11 +47,11 @@ class TodoListList extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        {this.props.todoLists.map((item, index) => (
+        {this.props.notebooks.map((item, index) => (
           <div className={classes.indent} key={index}>
             <Grid container alignItems="center" direction="row">
               <Grid item xs={8}>
-                <Button onClick={this.handleUpdateCurrentTodoList(item)}>
+                <Button onClick={this.handleUpdateCurrentNotebook(item)}>
                   {this.trimTitle(item.title)}
                 </Button>
               </Grid>
@@ -59,7 +59,7 @@ class TodoListList extends React.Component {
                 <IconButton
                   aria-label="Edit"
                   className={classes.margin}
-                  onClick={this.toggleEditTodoListDialog(item)}
+                  onClick={this.toggleEditNotebookDialog(item)}
                 >
                   <EditIcon className={classes.margin} fontSize="small" />
                 </IconButton>
@@ -73,19 +73,19 @@ class TodoListList extends React.Component {
 }
 
 const mapDispatchToProps = {
-  onToggleEditTodoListDialog,
-  onTempTodoListUpdated,
-  onCurrentTodoListUpdated,
-  getTodoLists,
-  editTodoList,
-  getTodos
+  onToggleEditNotebookDialog,
+  onTempNotebookUpdated,
+  onCurrentNotebookUpdated,
+  getNotebooks,
+  editNotebook,
+  getNotes
 };
 
 const mapStateToProps = state => ({
-  ...state.todos
+  ...state.notes
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(TodoListList));
+)(withStyles(styles)(NotebookList));

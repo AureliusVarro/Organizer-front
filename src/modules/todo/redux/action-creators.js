@@ -18,7 +18,19 @@ export const onTempTodoListUpdated = tempTodoListData => ({
   }
 });
 
-export const getTodoLists = () => dispatch =>
+export const onCurrentTodoListUpdated = tempTodoListData => ({
+  type: actionTypes.UPDATE_CURRENT_TODOLIST,
+  payload: tempTodoListData || {
+    title: "New Todo List"
+  }
+});
+
+export const saveTodoLists = todoListData => ({
+  type: actionTypes.SAVE_TODOLISTS,
+  payload: todoListData
+});
+
+export const getTodoLists = () => (dispatch, getState) =>
   dispatch({
     [RSAA]: {
       method: "GET",
@@ -26,7 +38,17 @@ export const getTodoLists = () => dispatch =>
       headers: jsonRequestHeader,
       types: [
         actionTypes.GET_TODOLISTS_REQUEST,
-        actionTypes.GET_TODOLISTS_SUCCESS,
+        {
+          type: actionTypes.GET_TODOLISTS_SUCCESS,
+          payload: (action, state, res) =>
+            getJSON(res).then(json => {
+              dispatch(saveTodoLists(json));
+              if (!getState().currentTodoList && json[0]) {
+                dispatch(onCurrentTodoListUpdated(json[0]));
+                dispatch(getTodos(json[0]));
+              }
+            })
+        },
         actionTypes.GET_TODOLISTS_FAILURE
       ]
     }
@@ -78,7 +100,7 @@ export const deleteTodoList = todoList => dispatch =>
   dispatch({
     [RSAA]: {
       method: "DELETE",
-      endpoint: apiUrls.DELETE_CALENDAR + "/" + todoList.id,
+      endpoint: apiUrls.DELETE_TODOLIST + "/" + todoList.id,
       headers: jsonRequestHeader,
       types: [
         actionTypes.DELETE_TODOLIST_REQUEST,
@@ -90,6 +112,50 @@ export const deleteTodoList = todoList => dispatch =>
             })
         },
         actionTypes.DELETE_TODOLIST_FAILURE
+      ]
+    }
+  });
+
+export const getTodos = todoList => dispatch =>
+  dispatch({
+    [RSAA]: {
+      method: "GET",
+      endpoint: apiUrls.GET_TODOS + "/" + todoList.id,
+      headers: jsonRequestHeader,
+      types: [
+        actionTypes.GET_TODOS_REQUEST,
+        actionTypes.GET_TODOS_SUCCESS,
+        actionTypes.GET_TODOS_FAILURE
+      ]
+    }
+  });
+
+export const addTodo = todoList => dispatch =>
+  dispatch({
+    [RSAA]: {
+      method: "POST",
+      endpoint: apiUrls.ADD_TODO,
+      body: JSON.stringify(todoList),
+      headers: jsonRequestHeader,
+      types: [
+        actionTypes.GET_TODOS_REQUEST,
+        actionTypes.GET_TODOS_SUCCESS,
+        actionTypes.GET_TODOS_FAILURE
+      ]
+    }
+  });
+
+export const editTodo = todoList => dispatch =>
+  dispatch({
+    [RSAA]: {
+      method: "PUT",
+      endpoint: apiUrls.EDIT_TODO,
+      body: JSON.stringify(todoList),
+      headers: jsonRequestHeader,
+      types: [
+        actionTypes.EDIT_TODO_REQUEST,
+        actionTypes.EDIT_TODO_SUCCESS,
+        actionTypes.EDIT_TODO_FAILURE
       ]
     }
   });

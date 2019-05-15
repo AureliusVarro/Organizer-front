@@ -37,6 +37,10 @@ import CalendarList from "../../calendar/components/CalendarList";
 import TodoListDialogContainer from "../../todo/components/TodoListDialogContainer";
 import TodoListList from "../../todo/components/TodoListList";
 
+import ContactDialogContainer from "../../contacts/components/ContactDialogContainer";
+import NotebookList from "../../notebook/components/NotebookList";
+import NotebookDialogContainer from "../../notebook/components/NotebookDialogContainer";
+
 const DRAWER_WIDTH_OPENED = 240;
 const DRAWER_WIDTH_CLOSED = 60;
 
@@ -128,6 +132,22 @@ class MainLayout extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  handleAddTodo = () => {
+    this.props.addTodo({
+      todoListId: this.props.currentTodoList.id,
+      text: "Description",
+      isDone: false
+    });
+  };
+
+  handleAddNote = () => {
+    this.props.addNote({
+      notebookId: this.props.currentNotebook.id,
+      title: "New Note",
+      text: "Text"
+    });
+  };
+
   render() {
     const {
       pathname,
@@ -139,11 +159,19 @@ class MainLayout extends React.Component {
       onToggleSidebar,
       onToggleAddEventDialog,
       onToggleAddCalendarDialog,
-      onToggleAddTodoListDialog
+      onToggleAddTodoListDialog,
+      onToggleAddContactDialog,
+      onToggleAddNotebookDialog
     } = this.props;
 
     const isOpenUserMenu = Boolean(this.state.anchorEl);
 
+    let calendarList = null;
+    let todoListList = null;
+    let notebookList = null;
+    let addCalendarButton = null;
+    let addTodoListButton = null;
+    let addNotebookButton = null;
     let addButton = null;
     if (pathname === internalUrls.HOME.path) {
       addButton = (
@@ -151,28 +179,7 @@ class MainLayout extends React.Component {
           Add Event
         </Button>
       );
-    } else if (pathname === internalUrls.TODO.path) {
-      addButton = (
-        <Button onClick={onToggleAddEventDialog} color="inherit">
-          Add ToDo
-        </Button>
-      );
-    } else if (pathname === internalUrls.NOTES.path) {
-      addButton = (
-        <Button onClick={onToggleAddEventDialog} color="inherit">
-          Add Note
-        </Button>
-      );
-    } else if (pathname === internalUrls.CONTACTS.path) {
-      addButton = (
-        <Button onClick={onToggleAddEventDialog} color="inherit">
-          Add Contact
-        </Button>
-      );
-    }
-
-    let addCalendarButton = null;
-    if (pathname === internalUrls.HOME.path)
+      calendarList = <CalendarList />;
       addCalendarButton = (
         <ListItemSecondaryAction onClick={onToggleAddCalendarDialog}>
           <IconButton aria-label="AddCalendar">
@@ -180,9 +187,13 @@ class MainLayout extends React.Component {
           </IconButton>
         </ListItemSecondaryAction>
       );
-
-    let addTodoListButton = null;
-    if (pathname === internalUrls.TODO.path)
+    } else if (pathname === internalUrls.TODO.path) {
+      addButton = (
+        <Button onClick={this.handleAddTodo} color="inherit">
+          Add ToDo
+        </Button>
+      );
+      todoListList = <TodoListList />;
       addTodoListButton = (
         <ListItemSecondaryAction onClick={onToggleAddTodoListDialog}>
           <IconButton aria-label="AddTodoList">
@@ -190,17 +201,34 @@ class MainLayout extends React.Component {
           </IconButton>
         </ListItemSecondaryAction>
       );
-
-    let calendarList = null;
-    if (pathname === internalUrls.HOME.path) calendarList = <CalendarList />;
-
-    let todoListList = null;
-    if (pathname === internalUrls.TODO.path) todoListList = <TodoListList />;
+    } else if (pathname === internalUrls.NOTES.path) {
+      addButton = (
+        <Button onClick={this.handleAddNote} color="inherit">
+          Add Note
+        </Button>
+      );
+      notebookList = <NotebookList />;
+      addNotebookButton = (
+        <ListItemSecondaryAction onClick={onToggleAddNotebookDialog}>
+          <IconButton aria-label="AddNotebook">
+            <AddIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      );
+    } else if (pathname === internalUrls.CONTACTS.path) {
+      addButton = (
+        <Button onClick={onToggleAddContactDialog} color="inherit">
+          Add Contact
+        </Button>
+      );
+    }
 
     return (
       <div className={classes.rootLayout}>
         <CalendarsDialogContainer />
         <TodoListDialogContainer />
+        <NotebookDialogContainer />
+        <ContactDialogContainer />
         <AppBar position="static" className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
             <IconButton
@@ -332,12 +360,18 @@ class MainLayout extends React.Component {
                   <NotesIcon />
                 </ListItemIcon>
                 {isOpenedSidebar && (
-                  <ListItemText
-                    className={classes.navItemTextBox}
-                    primary={internalUrls.NOTES.linkTitle}
-                  />
+                  <div>
+                    <ListItemText
+                      className={classes.navItemTextBox}
+                      primary={internalUrls.NOTES.linkTitle}
+                    />
+                    {addNotebookButton}
+                  </div>
                 )}
               </ListItem>
+
+              {notebookList}
+
               <ListItem
                 button
                 component={NavLink}

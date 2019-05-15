@@ -69,6 +69,12 @@ class LayoutManager extends React.Component {
           onToggleAddEventDialog={this.props.onToggleAddEventDialog}
           onToggleAddCalendarDialog={this.props.onToggleAddCalendarDialog}
           onToggleAddTodoListDialog={this.props.onToggleAddTodoListDialog}
+          onToggleAddContactDialog={this.props.onToggleAddContactDialog}
+          addTodo={this.props.addTodo}
+          currentTodoList={this.props.currentTodoList}
+          onToggleAddNotebookDialog={this.props.onToggleAddNotebookDialog}
+          addNote={this.props.addNote}
+          currentNotebook={this.props.currentNotebook}
         >
           {children}
         </MainLayout>

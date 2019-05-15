@@ -1,25 +1,41 @@
 import * as actionTypes from "./action-types";
-import { getCalendars } from "./action-creators";
 
 export const initialState = {
-  isOpenedAddEventDialog: false,
-  isOpenedAddCalendarDialog: false,
-  isOpenedEditCalendarDialog: false,
-  tempContact: {
-    title: "New Event",
-    start: new Date().toISOString(),
-    end: new Date().toISOString(),
-    calendarId: 0
-  },
-  tempCalendar: { title: "New Calendar", isDisplayed: false },
-  calendars: [],
-  events: [],
+  isOpenedAddContactDialog: false,
+  isOpenedEditContactDialog: false,
+  tempContact: { name: "New Contact", email: "", phoneNumber: "" },
+  contacts: [],
   UPD: false
 };
 
 const layoutManager = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.TOGGLE_ADD_EVENT_DIALOG:
+    case actionTypes.TOGGLE_ADD_CONTACT_DIALOG:
+      return {
+        ...state,
+        isOpenedAddContactDialog: !state.isOpenedAddContactDialog
+      };
+
+    case actionTypes.TOGGLE_EDIT_CONTACT_DIALOG:
+      return {
+        ...state,
+        isOpenedEditContactDialog: !state.isOpenedEditContactDialog
+      };
+
+    case actionTypes.UPDATE_TEMP_CONTACT:
+      return { ...state, tempContact: action.payload, UPD: !state.UPD };
+
+    case actionTypes.GET_CONTACTS_SUCCESS:
+      return { ...state, contacts: action.payload };
+
+    case actionTypes.ADD_CONTACT_SUCCESS:
+      return { ...state, isOpenedAddContactDialog: false };
+
+    case actionTypes.EDIT_CONTACT_SUCCESS:
+      return { ...state, isOpenedEditContactDialog: false };
+
+    case actionTypes.DELETE_CONTACT_SUCCESS:
+      return { ...state, isOpenedEditContactDialog: false };
 
     default:
       return state;

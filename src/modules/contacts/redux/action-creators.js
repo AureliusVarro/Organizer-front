@@ -4,172 +4,92 @@ import * as actionTypes from "./action-types";
 import apiUrls from "../../../common/constants/api-urls";
 import { jsonRequestHeader } from "../../../common/constants/common";
 
-export const onToggleAddCalendarDialog = () => ({
-  type: actionTypes.TOGGLE_ADD_CALENDAR_DIALOG
+export const onToggleAddContactDialog = () => ({
+  type: actionTypes.TOGGLE_ADD_CONTACT_DIALOG
+});
+export const onToggleEditContactDialog = () => ({
+  type: actionTypes.TOGGLE_EDIT_CONTACT_DIALOG
 });
 
-export const onToggleAddEventDialog = () => ({
-  type: actionTypes.TOGGLE_ADD_EVENT_DIALOG
-});
-
-export const onToggleEditCalendarDialog = () => ({
-  type: actionTypes.TOGGLE_EDIT_CALENDAR_DIALOG
-});
-
-export const onTempEventUpdated = tempEventData => ({
-  type: actionTypes.UPDATE_TEMP_EVENT,
-  payload: tempEventData || {
-    title: "New Event",
-    startTime: new Date().toISOString(),
-    endTime: new Date().toISOString(),
-    calendarId: 1
+export const onTempContactUpdated = tempContactData => ({
+  type: actionTypes.UPDATE_TEMP_CONTACT,
+  payload: tempContactData || {
+    title: "New Contact"
   }
 });
 
-export const onTempCalendarUpdated = tempCalendarData => ({
-  type: actionTypes.UPDATE_TEMP_CALENDAR,
-  payload: tempCalendarData || {
-    title: "New Calendar"
-  }
-});
-
-export const saveCalendars = calendars => ({
-  type: actionTypes.SAVE_CALENDARS,
-  payload: calendars
-});
-
-export const getCalendars = () => dispatch =>
+export const getContacts = () => dispatch =>
   dispatch({
     [RSAA]: {
       method: "GET",
-      endpoint: apiUrls.GET_CALENDARS,
+      endpoint: apiUrls.GET_CONTACTS,
       headers: jsonRequestHeader,
       types: [
-        actionTypes.GET_CALENDARS_REQUEST,
-        {
-          type: actionTypes.GET_CALENDARS_SUCCESS,
-          payload: (action, state, res) =>
-            getJSON(res).then(json => {
-              dispatch(saveCalendars(json));
-              dispatch(getAllEvents());
-            })
-        },
-        actionTypes.GET_CALENDARS_FAILURE
+        actionTypes.GET_CONTACTS_REQUEST,
+        actionTypes.GET_CONTACTS_SUCCESS,
+        actionTypes.GET_CONTACTS_FAILURE
       ]
     }
   });
 
-export const addCalendar = calendarData => dispatch =>
+export const addContact = contactData => dispatch =>
   dispatch({
     [RSAA]: {
       method: "POST",
-      endpoint: apiUrls.ADD_CALENDAR,
-      body: JSON.stringify(calendarData),
+      endpoint: apiUrls.ADD_CONTACT,
+      body: JSON.stringify(contactData),
       headers: jsonRequestHeader,
       types: [
-        actionTypes.ADD_CALENDAR_REQUEST,
+        actionTypes.ADD_CONTACT_REQUEST,
         {
-          type: actionTypes.ADD_CALENDAR_SUCCESS,
+          type: actionTypes.ADD_CONTACT_SUCCESS,
           payload: (action, state, res) =>
             getJSON(res).then(json => {
-              dispatch(getCalendars());
+              dispatch(getContacts());
             })
         },
-        actionTypes.ADD_CALENDAR_FAILURE
+        actionTypes.ADD_CONTACT_FAILURE
       ]
     }
   });
 
-export const editCalendar = calendar => dispatch =>
+export const editContact = contact => dispatch =>
   dispatch({
     [RSAA]: {
       method: "PUT",
-      endpoint: apiUrls.EDIT_CALENDAR,
-      body: JSON.stringify(calendar),
+      endpoint: apiUrls.EDIT_CONTACT,
+      body: JSON.stringify(contact),
       headers: jsonRequestHeader,
       types: [
-        actionTypes.EDIT_CALENDAR_REQUEST,
+        actionTypes.EDIT_CONTACT_REQUEST,
         {
-          type: actionTypes.EDIT_CALENDAR_SUCCESS,
+          type: actionTypes.EDIT_CONTACT_SUCCESS,
           payload: (action, state, res) =>
             getJSON(res).then(json => {
-              dispatch(getCalendars());
+              dispatch(getContacts());
             })
         },
-        actionTypes.EDIT_CALENDAR_FAILURE
+        actionTypes.EDIT_CONTACT_FAILURE
       ]
     }
   });
 
-export const deleteCalendar = calendar => dispatch =>
+export const deleteContact = contact => dispatch =>
   dispatch({
     [RSAA]: {
       method: "DELETE",
-      endpoint: apiUrls.DELETE_CALENDAR + "/" + calendar.id,
+      endpoint: apiUrls.DELETE_CONTACT + "/" + contact.id,
       headers: jsonRequestHeader,
       types: [
-        actionTypes.DELETE_CALENDAR_REQUEST,
+        actionTypes.DELETE_CONTACT_REQUEST,
         {
-          type: actionTypes.DELETE_CALENDAR_SUCCESS,
+          type: actionTypes.DELETE_CONTACT_SUCCESS,
           payload: (action, state, res) =>
             getJSON(res).then(json => {
-              dispatch(getCalendars());
+              dispatch(getContacts());
             })
         },
-        actionTypes.DELETE_CALENDAR_FAILURE
-      ]
-    }
-  });
-
-export const clearEvents = () => ({
-  type: actionTypes.CLEAR_EVENTS
-});
-
-export const getEvents = calendarId => dispatch =>
-  dispatch({
-    [RSAA]: {
-      method: "GET",
-      endpoint: apiUrls.GET_EVENTS + "/" + calendarId,
-      headers: jsonRequestHeader,
-      types: [
-        actionTypes.GET_EVENTS_REQUEST,
-        actionTypes.GET_EVENTS_SUCCESS,
-        actionTypes.GET_EVENTS_FAILURE
-      ]
-    }
-  });
-
-export const getAllEvents = () => (dispatch, getState) => {
-  dispatch(clearEvents());
-  if (getState().calendar.calendars[0]) {
-    let checkedCalenderIds = [];
-    getState().calendar.calendars.map(item => {
-      if (item.isDisplayed) checkedCalenderIds.push(item.id);
-    });
-    checkedCalenderIds.map(item => {
-      dispatch(getEvents(item));
-    });
-  }
-};
-
-export const addEvent = eventData => dispatch =>
-  dispatch({
-    [RSAA]: {
-      method: "POST",
-      endpoint: apiUrls.ADD_EVENT,
-      body: JSON.stringify(eventData),
-      headers: jsonRequestHeader,
-      types: [
-        actionTypes.ADD_EVENT_REQUEST,
-        {
-          type: actionTypes.ADD_EVENT_SUCCESS,
-          payload: (action, state, res) =>
-            getJSON(res).then(json => {
-              console.log("TEST", eventData.start.toString);
-              dispatch(getCalendars());
-            })
-        },
-        actionTypes.ADD_EVENT_FAILURE
+        actionTypes.DELETE_CONTACT_FAILURE
       ]
     }
   });
