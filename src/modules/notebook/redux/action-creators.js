@@ -114,6 +114,13 @@ export const deleteNotebook = notebook => dispatch =>
     }
   });
 
+export const onCurrentNoteUpdated = tempNoteData => ({
+  type: actionTypes.UPDATE_CURRENT_NOTE,
+  payload: tempNoteData || {
+    title: "New Note"
+  }
+});
+
 export const getNotes = notebook => dispatch =>
   dispatch({
     [RSAA]: {

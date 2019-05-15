@@ -4,16 +4,28 @@ import { getCalendars } from "./action-creators";
 export const initialState = {
   isOpenedAddNotebookDialog: false,
   isOpenedEditNotebookDialog: false,
-  tempEvent: {
-    title: "New Event",
-    start: new Date().toISOString(),
-    end: new Date().toISOString(),
-    calendarId: 0
+  currentNote: {
+    title: "New Note",
+    text: "Lorem Ipsum",
+    notebookId: 0
   },
   tempNotebook: { title: "New Notebook" },
   currentNotebook: null,
   notebooks: [],
-  notes: [],
+  notes: [
+    {
+      id: 77,
+      title: "New Note",
+      text: "Lorem Ipsum",
+      notebookId: 0
+    },
+    {
+      id: 228,
+      title: "New Note 2",
+      text: "Lorem Ipsum",
+      notebookId: 0
+    }
+  ],
   UPD: false
 };
 
@@ -50,6 +62,7 @@ const layoutManager = (state = initialState, action) => {
       return { ...state, isOpenedEditNotebookDialog: false };
 
     case actionTypes.GET_NOTES_SUCCESS:
+      console.log(actionTypes.GET_NOTES_SUCCESS, action.payload);
       return { ...state, notes: action.payload };
 
     default:

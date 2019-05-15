@@ -49,7 +49,7 @@ class CalendarDialogsContainer extends React.Component {
       calendars
     } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <AddCalendarDialog
           addCalendar={addCalendar}
           onToggleAddCalendarDialog={onToggleAddCalendarDialog}
@@ -73,7 +73,7 @@ class CalendarDialogsContainer extends React.Component {
           isOpenedAddEventDialog={isOpenedAddEventDialog}
           calendars={calendars}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

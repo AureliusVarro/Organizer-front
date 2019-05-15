@@ -35,7 +35,7 @@ class ContactDialogsContainer extends React.Component {
       isOpenedEditContactDialog
     } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <AddContactDialog
           addContact={addContact}
           onToggleAddContactDialog={onToggleAddContactDialog}
@@ -51,7 +51,7 @@ class ContactDialogsContainer extends React.Component {
           tempContact={tempContact}
           isOpenedEditContactDialog={isOpenedEditContactDialog}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

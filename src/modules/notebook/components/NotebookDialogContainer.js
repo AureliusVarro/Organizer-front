@@ -35,7 +35,7 @@ class CalendarDialogsContainer extends React.Component {
       isOpenedEditNotebookDialog
     } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <AddNotebookDialog
           addNotebook={addNotebook}
           onToggleAddNotebookDialog={onToggleAddNotebookDialog}
@@ -51,7 +51,7 @@ class CalendarDialogsContainer extends React.Component {
           tempNotebook={tempNotebook}
           isOpenedEditNotebookDialog={isOpenedEditNotebookDialog}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

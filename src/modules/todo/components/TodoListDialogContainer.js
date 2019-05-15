@@ -35,7 +35,7 @@ class CalendarDialogsContainer extends React.Component {
       isOpenedEditTodoListDialog
     } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <AddTodoListDialog
           addTodoList={addTodoList}
           onToggleAddTodoListDialog={onToggleAddTodoListDialog}
@@ -51,7 +51,7 @@ class CalendarDialogsContainer extends React.Component {
           tempTodoList={tempTodoList}
           isOpenedEditTodoListDialog={isOpenedEditTodoListDialog}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }
