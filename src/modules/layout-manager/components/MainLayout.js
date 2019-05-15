@@ -326,7 +326,7 @@ class MainLayout extends React.Component {
                 )}
               </ListItem>
 
-              {calendarList}
+              {isOpenedSidebar && calendarList}
 
               <ListItem
                 button
@@ -348,7 +348,7 @@ class MainLayout extends React.Component {
                 )}
               </ListItem>
 
-              {todoListList}
+              {isOpenedSidebar && todoListList}
 
               <ListItem
                 button
@@ -370,7 +370,7 @@ class MainLayout extends React.Component {
                 )}
               </ListItem>
 
-              {notebookList}
+              {isOpenedSidebar && notebookList}
 
               <ListItem
                 button

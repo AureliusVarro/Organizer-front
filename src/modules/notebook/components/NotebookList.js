@@ -38,8 +38,8 @@ class NotebookList extends React.Component {
 
   trimTitle = title => {
     if (title) {
-      if (title.length <= 14) return title;
-      else return title.substring(0, 14) + "...";
+      if (title.length <= 11) return title;
+      else return title.substring(0, 11) + "...";
     } else return "NULL";
   };
 

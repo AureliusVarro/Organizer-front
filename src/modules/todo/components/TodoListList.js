@@ -38,8 +38,8 @@ class TodoListList extends React.Component {
 
   trimTitle = title => {
     if (title) {
-      if (title.length <= 14) return title;
-      else return title.substring(0, 14) + "...";
+      if (title.length <= 12) return title;
+      else return title.substring(0, 12) + "...";
     } else return "NULL";
   };
 
