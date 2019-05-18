@@ -1,16 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
-import FormLabel from "@material-ui/core/FormLabel";
-import { IconButton, Typography, Grid, Button } from "@material-ui/core";
+import {
+  IconButton,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  ListSubheader,
+  ListItemSecondaryAction
+} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import AddIcon from "@material-ui/icons/Add";
 
 import {
   onToggleEditNotebookDialog,
+  onToggleAddNotebookDialog,
   onTempNotebookUpdated,
   onCurrentNotebookUpdated,
   getNotebooks,
@@ -22,7 +28,11 @@ const styles = theme => ({
   indent: {
     marginLeft: "32px"
   },
-  margin: { margin: 0 }
+  margin: { margin: 0 },
+  listItem: {
+    paddingTop: 0,
+    paddingBottom: 0
+  }
 });
 
 class NotebookList extends React.Component {
@@ -46,34 +56,46 @@ class NotebookList extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <List>
+        <ListSubheader>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={this.props.onToggleAddNotebookDialog}
+          >
+            <AddIcon />
+            Notebook
+          </Button>
+        </ListSubheader>
         {this.props.notebooks.map((item, index) => (
-          <div className={classes.indent} key={index}>
-            <Grid container alignItems="center" direction="row">
-              <Grid item xs={8}>
-                <Button onClick={this.handleUpdateCurrentNotebook(item)}>
-                  {this.trimTitle(item.title)}
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <IconButton
-                  aria-label="Edit"
-                  className={classes.margin}
-                  onClick={this.toggleEditNotebookDialog(item)}
-                >
-                  <EditIcon className={classes.margin} fontSize="small" />
-                </IconButton>
-              </Grid>
-            </Grid>
-          </div>
+          <ListItem
+            key={index}
+            button
+            onClick={this.handleUpdateCurrentNotebook(item)}
+          >
+            <ListItemText className={classes.listItem}>
+              {item.title}
+            </ListItemText>
+            <ListItemSecondaryAction>
+              <IconButton
+                aria-label="Edit"
+                className={classes.margin}
+                onClick={this.toggleEditNotebookDialog(item)}
+              >
+                <EditIcon className={classes.margin} fontSize="small" />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
         ))}
-      </div>
+      </List>
     );
   }
 }
 
 const mapDispatchToProps = {
   onToggleEditNotebookDialog,
+  onToggleAddNotebookDialog,
   onTempNotebookUpdated,
   onCurrentNotebookUpdated,
   getNotebooks,

@@ -23,34 +23,32 @@ export default class AddTodoListDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.props.isOpenedAddTodoListDialog}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Add Todo List</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="calendarName"
-              label="Todo List Name"
-              fullWidth
-              value={this.props.tempTodoList.title}
-              onChange={this.handleTodoListTitleChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleAddTodoList} color="primary">
-              Add Todo List
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog
+        open={this.props.isOpenedAddTodoListDialog}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add Todo List</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="calendarName"
+            label="Todo List Name"
+            fullWidth
+            value={this.props.tempTodoList.title}
+            onChange={this.handleTodoListTitleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleAddTodoList} color="primary">
+            Add Todo List
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

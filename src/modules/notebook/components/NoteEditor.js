@@ -1,16 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {
-  Grid,
-  Paper,
-  Typography,
-  Button,
-  Divider,
-  TextField
-} from "@material-ui/core";
+import { Grid, Button, Divider, TextField, MenuItem } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import classNames from "classnames";
 
 import {} from "../redux/action-creators";
 
@@ -30,16 +22,16 @@ const styles = theme => ({
 
 class NoteEditor extends React.Component {
   render() {
-    <div>
+    return (
       <Grid container spacing={8} direction="column">
         <Grid item xs={12}>
           <TextField
             autoFocus
             margin="dense"
-            id="name"
-            label="Event Name"
+            id="note-name"
+            label="Note Name"
             fullWidth
-            value={this.props.tempEvent.title}
+            value={this.props.currentNote.title}
             onChange={this.handleEventNameChange}
           />
         </Grid>
@@ -53,27 +45,53 @@ class NoteEditor extends React.Component {
             fullWidth
             margin="dense"
           >
-            {this.props.calendars.map(calendar => (
-              <MenuItem key={calendar.id} value={calendar.id}>
-                {calendar.title}
-              </MenuItem>
-            ))}
+            {this.props.calendars &&
+              this.props.calendars.map(calendar => (
+                <MenuItem key={calendar.id} value={calendar.id}>
+                  {calendar.title}
+                </MenuItem>
+              ))}
           </TextField>
         </Grid>
         <Grid item xs={12}>
           <TextField
-            id="event-description"
-            label="Event Description"
-            placeholder="Descriptipn"
+            id="note-description"
+            label="Note Description"
+            placeholder="Description"
             multiline
             fullWidth
             margin="dense"
-            value={this.props.tempEvent.description}
+            rows={22}
+            rowsMax={22}
+            value={this.props.currentNote.text}
             onChange={this.handleEventDescriptionChange}
           />
         </Grid>
+        <Grid
+          item
+          container
+          direction="row"
+          justify="space-between"
+          spacing={16}
+        >
+          <Grid item xs={2}>
+            <Button color="secondary" variant="outlined">
+              Delete
+            </Button>
+          </Grid>
+          <Grid item container xs={8} spacing={8} justify="flex-end">
+            <Grid item xs={3}>
+              <Button>Cancel</Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button color="primary" variant="contained">
+                Save
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
-    </div>;
+    );
   }
 }
 

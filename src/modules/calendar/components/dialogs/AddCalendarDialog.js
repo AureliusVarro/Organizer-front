@@ -23,34 +23,32 @@ export default class AddCalendarDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.props.isOpenedAddCalendarDialog}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Add Calendar</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="calendarName"
-              label="Calendar Name"
-              fullWidth
-              value={this.props.tempCalendar.title}
-              onChange={this.handleCalendarTitleChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleAddEvent} color="primary">
-              Add Calendar
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog
+        open={this.props.isOpenedAddCalendarDialog}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add Calendar</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="calendarName"
+            label="Calendar Name"
+            fullWidth
+            value={this.props.tempCalendar.title}
+            onChange={this.handleCalendarTitleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleAddEvent} color="primary">
+            Add Calendar
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

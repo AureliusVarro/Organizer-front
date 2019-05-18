@@ -5,11 +5,21 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
-import { IconButton } from "@material-ui/core";
+import {
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  ListSubheader,
+  Button
+} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import AddIcon from "@material-ui/icons/Add";
 
 import {
   onToggleEditCalendarDialog,
+  onToggleAddCalendarDialog,
   onTempCalendarUpdated,
   getCalendars,
   editCalendar
@@ -19,12 +29,25 @@ const styles = theme => ({
   indent: {
     marginLeft: "32px"
   },
-  margin: { margin: 0 }
+  margin: { margin: 0 },
+  listHeaderButton: {},
+  listItem: {
+    paddingTop: 0,
+    paddingBottom: 0
+  }
 });
 
 class CalendarList extends React.Component {
   state = {
+    anchorEl: null,
     open: false
+  };
+
+  handleClick = event => {
+    this.setState({
+      anchorEl: event.currentTarget,
+      open: !this.state.open
+    });
   };
 
   handleStuff = item => event => {
@@ -48,24 +71,34 @@ class CalendarList extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <List>
+        <ListSubheader>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={this.props.onToggleAddCalendarDialog}
+          >
+            <AddIcon />
+            Calendar
+          </Button>
+        </ListSubheader>
         {this.props.calendars.map((item, index) => (
-          <div className={classes.indent} key={index}>
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={item.isDisplayed}
-                    onChange={this.handleStuff({
-                      id: item.id,
-                      title: item.title
-                    })}
-                    value="checkedB"
-                    color="primary"
-                  />
-                }
-                label={this.trimTitle(item.title)}
-              />
+          <ListItem key={index}>
+            <Checkbox
+              className={classes.listItem}
+              checked={item.isDisplayed}
+              onChange={this.handleStuff({
+                id: item.id,
+                title: item.title
+              })}
+              value="checkedB"
+              color="primary"
+            />
+            <ListItemText className={classes.listItem}>
+              {item.title}
+            </ListItemText>
+            <ListItemSecondaryAction>
               <IconButton
                 aria-label="Edit"
                 className={classes.margin}
@@ -73,16 +106,17 @@ class CalendarList extends React.Component {
               >
                 <EditIcon className={classes.margin} fontSize="small" />
               </IconButton>
-            </FormGroup>
-          </div>
+            </ListItemSecondaryAction>
+          </ListItem>
         ))}
-      </div>
+      </List>
     );
   }
 }
 
 const mapDispatchToProps = {
   onToggleEditCalendarDialog,
+  onToggleAddCalendarDialog,
   onTempCalendarUpdated,
   getCalendars,
   editCalendar

@@ -143,9 +143,16 @@ export const addNote = notebook => dispatch =>
       body: JSON.stringify(notebook),
       headers: jsonRequestHeader,
       types: [
-        actionTypes.GET_NOTES_REQUEST,
-        actionTypes.GET_NOTES_SUCCESS,
-        actionTypes.GET_NOTES_FAILURE
+        actionTypes.ADD_NOTE_REQUEST,
+        actionTypes.DELETE_NOTEBOOK_REQUEST,
+        {
+          type: actionTypes.ADD_NOTE_SUCCESS,
+          payload: (action, state, res) =>
+            getJSON(res).then(json => {
+              dispatch(getNotes(notebook));
+            })
+        },
+        actionTypes.ADD_NOTE_FAILURE
       ]
     }
   });

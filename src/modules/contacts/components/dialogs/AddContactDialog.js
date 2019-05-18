@@ -37,52 +37,50 @@ export default class AddContactDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.props.isOpenedAddContactDialog}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Add Contact</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="contactName"
-              label="Name"
-              fullWidth
-              value={this.props.tempContact.name}
-              onChange={this.handleContactNameChange}
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="contactEmail"
-              label="Email"
-              fullWidth
-              value={this.props.tempContact.email}
-              onChange={this.handleContactEmailChange}
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="contactPhoneNumber"
-              label="Phone Number"
-              fullWidth
-              value={this.props.tempContact.phoneNumber}
-              onChange={this.handleContactPhoneNumberChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleAddContact} color="primary">
-              Add Contact
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog
+        open={this.props.isOpenedAddContactDialog}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add Contact</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="contactName"
+            label="Name"
+            fullWidth
+            value={this.props.tempContact.name}
+            onChange={this.handleContactNameChange}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="contactEmail"
+            label="Email"
+            fullWidth
+            value={this.props.tempContact.email}
+            onChange={this.handleContactEmailChange}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="contactPhoneNumber"
+            label="Phone Number"
+            fullWidth
+            value={this.props.tempContact.phoneNumber}
+            onChange={this.handleContactPhoneNumberChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleAddContact} color="primary">
+            Add Contact
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

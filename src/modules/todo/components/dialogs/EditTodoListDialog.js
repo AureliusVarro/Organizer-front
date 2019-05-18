@@ -28,37 +28,35 @@ export default class EditTodoListrDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.props.isOpenedEditTodoListDialog}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Edit TodoList</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="todoListTitle"
-              label="TodoList Title"
-              fullWidth
-              value={this.props.tempTodoList.title}
-              onChange={this.handleTodoListTitleChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleDeleteTodoList} color="secondary">
-              Delete
-            </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleEditTodoList} color="primary">
-              Edit TodoList
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog
+        open={this.props.isOpenedEditTodoListDialog}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Edit TodoList</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="todoListTitle"
+            label="TodoList Title"
+            fullWidth
+            value={this.props.tempTodoList.title}
+            onChange={this.handleTodoListTitleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleDeleteTodoList} color="secondary">
+            Delete
+          </Button>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleEditTodoList} color="primary">
+            Edit TodoList
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

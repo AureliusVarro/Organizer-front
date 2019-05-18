@@ -92,97 +92,95 @@ class EditEventDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.props.isOpenedAddEventDialog}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
-          <DialogContent>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid container spacing={8} direction="column">
-                <Grid item xs={12}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Event Name"
-                    fullWidth
-                    value={this.props.tempEvent.title}
-                    onChange={this.handleEventNameChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="select-calendar"
-                    select
-                    label="Select Calendar"
-                    value={this.props.tempEvent.calendarId}
-                    onChange={this.handleEventCalendarChange}
-                    fullWidth
-                    margin="dense"
-                  >
-                    {this.props.calendars.map(calendar => (
-                      <MenuItem key={calendar.id} value={calendar.id}>
-                        {calendar.title}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-                <Grid item xs={12}>
-                  <DatePicker
-                    margin="normal"
-                    label="Event Date"
-                    value={this.props.tempEvent.start}
-                    onChange={this.handleDateChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={24}>
-                    <Grid item xs={4}>
-                      <TimePicker
-                        margin="normal"
-                        label="Start Time"
-                        value={this.props.tempEvent.start}
-                        onChange={this.handleStartTimeChange}
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TimePicker
-                        margin="normal"
-                        label="End Time"
-                        value={this.props.tempEvent.end}
-                        onChange={this.handleEndTimeChange}
-                      />
-                    </Grid>
+      <Dialog
+        open={this.props.isOpenedAddEventDialog}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
+        <DialogContent>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container spacing={8} direction="column">
+              <Grid item xs={12}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Event Name"
+                  fullWidth
+                  value={this.props.tempEvent.title}
+                  onChange={this.handleEventNameChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="select-calendar"
+                  select
+                  label="Select Calendar"
+                  value={this.props.tempEvent.calendarId}
+                  onChange={this.handleEventCalendarChange}
+                  fullWidth
+                  margin="dense"
+                >
+                  {this.props.calendars.map(calendar => (
+                    <MenuItem key={calendar.id} value={calendar.id}>
+                      {calendar.title}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={12}>
+                <DatePicker
+                  margin="normal"
+                  label="Event Date"
+                  value={this.props.tempEvent.start}
+                  onChange={this.handleDateChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={24}>
+                  <Grid item xs={4}>
+                    <TimePicker
+                      margin="normal"
+                      label="Start Time"
+                      value={this.props.tempEvent.start}
+                      onChange={this.handleStartTimeChange}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TimePicker
+                      margin="normal"
+                      label="End Time"
+                      value={this.props.tempEvent.end}
+                      onChange={this.handleEndTimeChange}
+                    />
                   </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="event-description"
-                    label="Event Description"
-                    placeholder="Descriptipn"
-                    multiline
-                    fullWidth
-                    margin="dense"
-                    value={this.props.tempEvent.description}
-                    onChange={this.handleEventDescriptionChange}
-                  />
-                </Grid>
               </Grid>
-            </MuiPickersUtilsProvider>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleAddEvent} color="primary">
-              Add Event
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+              <Grid item xs={12}>
+                <TextField
+                  id="event-description"
+                  label="Event Description"
+                  placeholder="Descriptipn"
+                  multiline
+                  fullWidth
+                  margin="dense"
+                  value={this.props.tempEvent.description}
+                  onChange={this.handleEventDescriptionChange}
+                />
+              </Grid>
+            </Grid>
+          </MuiPickersUtilsProvider>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleAddEvent} color="primary">
+            Add Event
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

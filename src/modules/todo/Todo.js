@@ -25,32 +25,30 @@ class Todo extends React.Component {
     }
 
     return (
-      <div className={classNames.todoPaperGrid}>
-        <Grid
-          classes={classNames.todoPaperGrid}
-          container
-          direction="row"
-          spacing={24}
-        >
-          <Grid item xs={6}>
-            <Paper className={classNames.paper}>
-              <Paper>
-                <Typography variant="h4">
-                  {this.props.currentTodoList
-                    ? this.props.currentTodoList.title
-                    : "Loading..."}
-                </Typography>
-              </Paper>{" "}
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper className={classNames.paper}>
-              <Typography variant="h4">Edit Note</Typography>
-              <Typography>Loading...</Typography>
-            </Paper>
-          </Grid>
+      <Grid
+        classes={classNames.todoPaperGrid}
+        container
+        direction="row"
+        spacing={24}
+      >
+        <Grid item xs={6}>
+          <Paper className={classNames.paper}>
+            <Paper>
+              <Typography variant="h4">
+                {this.props.currentTodoList
+                  ? this.props.currentTodoList.title
+                  : "Loading..."}
+              </Typography>
+            </Paper>{" "}
+          </Paper>
         </Grid>
-      </div>
+        <Grid item xs={6}>
+          <Paper className={classNames.paper}>
+            <Typography variant="h4">Edit Note</Typography>
+            <Typography>Loading...</Typography>
+          </Paper>
+        </Grid>
+      </Grid>
     );
   }
 }

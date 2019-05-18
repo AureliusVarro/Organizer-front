@@ -8,12 +8,16 @@ import {
   Button,
   Divider,
   TextField,
-  MenuItem
+  MenuItem,
+  List,
+  ListItem,
+  ListItemText
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 
 import {} from "./redux/action-creators";
+import NoteEditor from "./components/NoteEditor";
 
 const styles = theme => ({
   paper: {
@@ -33,90 +37,66 @@ const styles = theme => ({
 });
 
 class Notebook extends React.Component {
-  handleSelectNote = note => {};
+  handleSelectNote = (event, note) => {
+    console.log("shit", note, event);
+  };
 
   render() {
-    console.log(this.props.classes.padding);
-    const editNoteWindow = (
+    const deleteWhenDone = (
       <div>
-        <Grid container spacing={8} direction="column">
-          <Grid item xs={12}>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Event Name"
-              fullWidth
-              value={this.props.currentNote.title}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="select-calendar"
-              select
-              label="Select Notebook"
-              value={this.props.currentNote.notebookId}
-              fullWidth
-              margin="dense"
-            >
-              {this.props.notebooks.map(calendar => (
-                <MenuItem key={calendar.id} value={calendar.id}>
-                  {calendar.title}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="event-description"
-              label="Event Description"
-              placeholder="Descriptipn"
-              multiline
-              fullWidth
-              margin="dense"
-              value={this.props.currentNote.text}
-            />
-          </Grid>
-        </Grid>
+        <Button
+          variant="contained"
+          className={classNames.indent}
+          disabled={"item.id" == this.props.currentNote.id}
+          onClick={this.handleSelectNote("item")}
+        >
+          {console.log(this.props.currentNote.id)}
+          <Typography>item.title</Typography>
+        </Button>
+        <Divider />
       </div>
     );
+
     return (
-      <div className={classNames.notePaperGrid}>
-        <Grid
-          classes={classNames.notePaperGrid}
-          container
-          direction="row"
-          spacing={24}
-        >
-          <Grid item xs={6}>
-            <Paper className={this.props.classes.paper}>
-              <Typography variant="h4">
-                {this.props.currentNotebook
-                  ? this.props.currentNotebook.title
-                  : "Loading..."}
-              </Typography>
-              <Divider />
+      <Grid
+        className={this.props.classes.notePaperGrid}
+        container
+        direction="row"
+        spacing={24}
+        alignItems="stretch"
+      >
+        <Grid item xs={6}>
+          <Paper className={this.props.classes.paper}>
+            <Typography variant="h4">
+              {this.props.currentNotebook
+                ? this.props.currentNotebook.title
+                : "Loading..."}
+            </Typography>
+            <Divider />
+            <List>
               {this.props.notes.map(item => (
-                <div>
-                  <Button
-                    className={classNames.indent}
-                    onClick={this.handleSelectNote(item)}
-                  >
-                    <Typography>{item.title}</Typography>
-                  </Button>
-                  <Divider />
-                </div>
+                <ListItem
+                  key={item.id}
+                  button
+                  selected={
+                    this.props.currentNote &&
+                    this.props.currentNote.id === item.id
+                  }
+                  onClick={event => this.handleSelectNote(event, item)}
+                >
+                  <ListItemText primary={item.title} />
+                </ListItem>
               ))}
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper className={this.props.classes.paper}>
-              <Typography variant="h4">Edit Note</Typography>
-              {this.props.notes[0] ? editNoteWindow : "Loading..."}
-            </Paper>
-          </Grid>
+            </List>
+          </Paper>
         </Grid>
-      </div>
+        <Grid item xs={6}>
+          <Paper className={this.props.classes.paper}>
+            <Typography variant="h4">Edit Note</Typography>
+            {this.props.currentNote ? <NoteEditor /> : "Loading..."}
+          </Paper>
+        </Grid>
+      </Grid>
     );
   }
 }

@@ -138,9 +138,9 @@ export const addTodo = todoList => dispatch =>
       body: JSON.stringify(todoList),
       headers: jsonRequestHeader,
       types: [
-        actionTypes.GET_TODOS_REQUEST,
-        actionTypes.GET_TODOS_SUCCESS,
-        actionTypes.GET_TODOS_FAILURE
+        actionTypes.ADD_TODO_REQUEST,
+        actionTypes.ADD_TODO_SUCCESS,
+        actionTypes.ADD_TODO_FAILURE
       ]
     }
   });

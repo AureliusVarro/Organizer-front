@@ -1,16 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
-import FormLabel from "@material-ui/core/FormLabel";
-import { IconButton, Typography, Grid, Button } from "@material-ui/core";
+import {
+  IconButton,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  ListSubheader
+} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import AddIcon from "@material-ui/icons/Add";
 
 import {
   onToggleEditTodoListDialog,
+  onToggleAddTodoListDialog,
   onTempTodoListUpdated,
   onCurrentTodoListUpdated,
   getTodoLists,
@@ -22,7 +28,11 @@ const styles = theme => ({
   indent: {
     marginLeft: "32px"
   },
-  margin: { margin: 0 }
+  margin: { margin: 0 },
+  listItem: {
+    paddingTop: 0,
+    paddingBottom: 0
+  }
 });
 
 class TodoListList extends React.Component {
@@ -47,15 +57,28 @@ class TodoListList extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        {this.props.todoLists.map((item, index) => (
-          <div className={classes.indent} key={index}>
-            <Grid container alignItems="center" direction="row">
-              <Grid item xs={8}>
-                <Button onClick={this.handleUpdateCurrentTodoList(item)}>
-                  {this.trimTitle(item.title)}
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
+        <List>
+          <ListSubheader>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={this.props.onToggleAddTodoListDialog}
+            >
+              <AddIcon />
+              Todo List
+            </Button>
+          </ListSubheader>
+          {this.props.todoLists.map((item, index) => (
+            <ListItem
+              key={index}
+              button
+              onClick={this.handleUpdateCurrentTodoList(item)}
+            >
+              <ListItemText className={classes.listItem}>
+                {item.title}
+              </ListItemText>
+              <ListItemSecondaryAction>
                 <IconButton
                   aria-label="Edit"
                   className={classes.margin}
@@ -63,10 +86,10 @@ class TodoListList extends React.Component {
                 >
                   <EditIcon className={classes.margin} fontSize="small" />
                 </IconButton>
-              </Grid>
-            </Grid>
-          </div>
-        ))}
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+        </List>
       </div>
     );
   }
@@ -74,6 +97,7 @@ class TodoListList extends React.Component {
 
 const mapDispatchToProps = {
   onToggleEditTodoListDialog,
+  onToggleAddTodoListDialog,
   onTempTodoListUpdated,
   onCurrentTodoListUpdated,
   getTodoLists,

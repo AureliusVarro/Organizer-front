@@ -28,37 +28,35 @@ export default class EditNotebookDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.props.isOpenedEditNotebookDialog}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Edit Notebook</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="notebookTitle"
-              label="Notebook Title"
-              fullWidth
-              value={this.props.tempNotebook.title}
-              onChange={this.handleNotebookTitleChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleDeleteNotebook} color="secondary">
-              Delete
-            </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleEditNotebook} color="primary">
-              Edit Notebook
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog
+        open={this.props.isOpenedEditNotebookDialog}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Edit Notebook</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="notebookTitle"
+            label="Notebook Title"
+            fullWidth
+            value={this.props.tempNotebook.title}
+            onChange={this.handleNotebookTitleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleDeleteNotebook} color="secondary">
+            Delete
+          </Button>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleEditNotebook} color="primary">
+            Edit Notebook
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

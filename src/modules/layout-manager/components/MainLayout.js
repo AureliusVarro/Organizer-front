@@ -30,17 +30,13 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddIcon from "@material-ui/icons/Add";
 
 import internalUrls from "../../../common/constants/internal-urls";
-
-import CalendarsDialogContainer from "../../calendar/components/CalendarsDialogContainer";
 import CalendarList from "../../calendar/components/CalendarList";
-
-import TodoListDialogContainer from "../../todo/components/TodoListDialogContainer";
 import TodoListList from "../../todo/components/TodoListList";
-
-import ContactDialogContainer from "../../contacts/components/ContactDialogContainer";
 import NotebookList from "../../notebook/components/NotebookList";
-import NotebookDialogContainer from "../../notebook/components/NotebookDialogContainer";
+
 import AddItemButtonsManager from "./add-item-buttons/AddItemButtonsManager";
+import MenuListPopper from "./menu-list-popper/MenuListPopper";
+import { Checkbox } from "@material-ui/core";
 
 const DRAWER_WIDTH_OPENED = 240;
 const DRAWER_WIDTH_CLOSED = 60;
@@ -176,11 +172,12 @@ class MainLayout extends React.Component {
     if (pathname === internalUrls.HOME.path) {
       calendarList = <CalendarList />;
       addCalendarButton = (
-        <ListItemSecondaryAction onClick={onToggleAddCalendarDialog}>
-          <IconButton aria-label="AddCalendar">
-            <AddIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
+        <IconButton
+          aria-label="AddCalendar"
+          onClick={onToggleAddCalendarDialog}
+        >
+          <AddIcon />
+        </IconButton>
       );
     } else if (pathname === internalUrls.TODO.path) {
       todoListList = <TodoListList />;
@@ -204,10 +201,6 @@ class MainLayout extends React.Component {
 
     return (
       <div className={classes.rootLayout}>
-        <CalendarsDialogContainer />
-        <TodoListDialogContainer />
-        <NotebookDialogContainer />
-        <ContactDialogContainer />
         <AppBar position="static" className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
             <IconButton
@@ -306,12 +299,16 @@ class MainLayout extends React.Component {
                       className={classes.navItemTextBox}
                       primary={internalUrls.HOME.linkTitle}
                     />
-                    {addCalendarButton}
+                    {this.props.pathname === internalUrls.HOME.path && (
+                      <ListItemSecondaryAction>
+                        <MenuListPopper>
+                          <CalendarList />
+                        </MenuListPopper>
+                      </ListItemSecondaryAction>
+                    )}
                   </div>
                 )}
               </ListItem>
-
-              {isOpenedSidebar && calendarList}
 
               <ListItem
                 button
@@ -328,12 +325,16 @@ class MainLayout extends React.Component {
                       className={classes.navItemTextBox}
                       primary={internalUrls.TODO.linkTitle}
                     />
-                    {addTodoListButton}
+                    {this.props.pathname === internalUrls.TODO.path && (
+                      <ListItemSecondaryAction>
+                        <MenuListPopper>
+                          <TodoListList />
+                        </MenuListPopper>
+                      </ListItemSecondaryAction>
+                    )}
                   </div>
                 )}
               </ListItem>
-
-              {isOpenedSidebar && todoListList}
 
               <ListItem
                 button
@@ -350,12 +351,16 @@ class MainLayout extends React.Component {
                       className={classes.navItemTextBox}
                       primary={internalUrls.NOTES.linkTitle}
                     />
-                    {addNotebookButton}
+                    {this.props.pathname === internalUrls.NOTES.path && (
+                      <ListItemSecondaryAction>
+                        <MenuListPopper>
+                          <NotebookList />
+                        </MenuListPopper>
+                      </ListItemSecondaryAction>
+                    )}
                   </div>
                 )}
               </ListItem>
-
-              {isOpenedSidebar && notebookList}
 
               <ListItem
                 button

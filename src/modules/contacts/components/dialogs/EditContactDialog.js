@@ -40,55 +40,53 @@ export default class EditContactrDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.props.isOpenedEditContactDialog}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Edit Contact</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="contactName"
-              label="Name"
-              fullWidth
-              value={this.props.tempContact.name}
-              onChange={this.handleContactNameChange}
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="contactEmail"
-              label="Email"
-              fullWidth
-              value={this.props.tempContact.email}
-              onChange={this.handleContactEmailChange}
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="contactPhoneNumber"
-              label="Phone Number"
-              fullWidth
-              value={this.props.tempContact.phoneNumber}
-              onChange={this.handleContactPhoneNumberChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleDeleteContact} color="secondary">
-              Delete
-            </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleEditContact} color="primary">
-              Edit Contact
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog
+        open={this.props.isOpenedEditContactDialog}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Edit Contact</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="contactName"
+            label="Name"
+            fullWidth
+            value={this.props.tempContact.name}
+            onChange={this.handleContactNameChange}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="contactEmail"
+            label="Email"
+            fullWidth
+            value={this.props.tempContact.email}
+            onChange={this.handleContactEmailChange}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="contactPhoneNumber"
+            label="Phone Number"
+            fullWidth
+            value={this.props.tempContact.phoneNumber}
+            onChange={this.handleContactPhoneNumberChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleDeleteContact} color="secondary">
+            Delete
+          </Button>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleEditContact} color="primary">
+            Edit Contact
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

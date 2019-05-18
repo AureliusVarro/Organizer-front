@@ -28,37 +28,35 @@ export default class EditCalendarDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.props.isOpenedEditCalendarDialog}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Edit Calendar</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="calendarTitle"
-              label="Calendar Title"
-              fullWidth
-              value={this.props.tempCalendar.title}
-              onChange={this.handleCalendarTitleChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleDeleteCalendar} color="secondary">
-              Delete
-            </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleEditCalendar} color="primary">
-              Edit Calendar
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog
+        open={this.props.isOpenedEditCalendarDialog}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Edit Calendar</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="calendarTitle"
+            label="Calendar Title"
+            fullWidth
+            value={this.props.tempCalendar.title}
+            onChange={this.handleCalendarTitleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleDeleteCalendar} color="secondary">
+            Delete
+          </Button>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleEditCalendar} color="primary">
+            Edit Calendar
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }
