@@ -1,22 +1,22 @@
-import React, { Children } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
 import { IconButton, Button, Popper, Fade, Paper } from "@material-ui/core";
 import ChevronRight from "@material-ui/icons/ChevronRight";
 
 const styles = theme => ({
-  indent: {
-    marginLeft: "32px"
-  },
   margin: { margin: 0 },
   containerPaper: {
-    maxHeight: "100vh",
-    maxWidth: "50hv",
+    maxHeight: "80vh",
+    maxWidth: "50vw",
     overflow: "auto"
+  },
+  menuListChevronOpen: {
+    transform: "rotate(180deg)"
+  },
+  menuListChevronClosed: {
+    transform: "rotate(0deg)"
   }
 });
 
@@ -41,7 +41,7 @@ class MenuListPopper extends React.Component {
   render() {
     const { classes } = this.props;
     const { anchorEl, open } = this.state;
-    const id = open ? "simple-popper" : null;
+    const id = open ? "menu-list-popper" : null;
     return (
       <div>
         <IconButton
@@ -50,13 +50,18 @@ class MenuListPopper extends React.Component {
           className={classes.margin}
           onClick={this.handleClick}
         >
-          <ChevronRight className={classes.margin} fontSize="small" />
+          <ChevronRight
+            className={
+              open ? classes.menuListChevronOpen : classes.menuListChevronClosed
+            }
+            fontSize="small"
+          />
         </IconButton>
         <Popper
           id={id}
           open={open}
           anchorEl={anchorEl}
-          placement="right"
+          placement="right-start"
           transition
         >
           {({ TransitionProps }) => (

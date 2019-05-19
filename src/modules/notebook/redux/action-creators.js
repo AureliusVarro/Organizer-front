@@ -41,9 +41,9 @@ export const getNotebooks = () => (dispatch, getState) =>
           payload: (action, state, res) =>
             getJSON(res).then(json => {
               dispatch(saveNotebooks(json));
-              if (!getState().currentNotebook && json[0]) {
+              if (!getState().notes.currentNotebook && json[0]) {
                 dispatch(onCurrentNotebookUpdated(json[0]));
-                dispatch(getNotes(json[0]));
+                dispatch(getNotes(json[0].id));
               }
             })
         },
@@ -116,16 +116,14 @@ export const deleteNotebook = notebook => dispatch =>
 
 export const onCurrentNoteUpdated = tempNoteData => ({
   type: actionTypes.UPDATE_CURRENT_NOTE,
-  payload: tempNoteData || {
-    title: "New Note"
-  }
+  payload: tempNoteData
 });
 
-export const getNotes = notebook => dispatch =>
+export const getNotes = notebookId => dispatch =>
   dispatch({
     [RSAA]: {
       method: "GET",
-      endpoint: apiUrls.GET_NOTES + "/" + notebook.id,
+      endpoint: apiUrls.GET_NOTES + "/" + notebookId,
       headers: jsonRequestHeader,
       types: [
         actionTypes.GET_NOTES_REQUEST,
@@ -135,21 +133,20 @@ export const getNotes = notebook => dispatch =>
     }
   });
 
-export const addNote = notebook => dispatch =>
+export const addNote = note => dispatch =>
   dispatch({
     [RSAA]: {
       method: "POST",
       endpoint: apiUrls.ADD_NOTE,
-      body: JSON.stringify(notebook),
+      body: JSON.stringify(note),
       headers: jsonRequestHeader,
       types: [
         actionTypes.ADD_NOTE_REQUEST,
-        actionTypes.DELETE_NOTEBOOK_REQUEST,
         {
           type: actionTypes.ADD_NOTE_SUCCESS,
           payload: (action, state, res) =>
             getJSON(res).then(json => {
-              dispatch(getNotes(notebook));
+              dispatch(getNotes(note.notebookId));
             })
         },
         actionTypes.ADD_NOTE_FAILURE
@@ -157,17 +154,44 @@ export const addNote = notebook => dispatch =>
     }
   });
 
-export const editNote = notebook => dispatch =>
+export const editNote = note => (dispatch, getState) =>
   dispatch({
     [RSAA]: {
       method: "PUT",
       endpoint: apiUrls.EDIT_NOTE,
-      body: JSON.stringify(notebook),
+      body: JSON.stringify(note),
       headers: jsonRequestHeader,
       types: [
         actionTypes.EDIT_NOTE_REQUEST,
-        actionTypes.EDIT_NOTE_SUCCESS,
+        {
+          type: actionTypes.EDIT_NOTE_SUCCESS,
+          payload: (action, state, res) =>
+            getJSON(res).then(json => {
+              console.log("getState", getState().notes.currentNotebook);
+              dispatch(getNotes(getState().notes.currentNotebook.id));
+            })
+        },
         actionTypes.EDIT_NOTE_FAILURE
+      ]
+    }
+  });
+
+export const deleteNote = note => dispatch =>
+  dispatch({
+    [RSAA]: {
+      method: "DELETE",
+      endpoint: apiUrls.DELETE_NOTE + "/" + note.id,
+      headers: jsonRequestHeader,
+      types: [
+        actionTypes.DELETE_NOTE_REQUEST,
+        {
+          type: actionTypes.DELETE_NOTE_SUCCESS,
+          payload: (action, state, res) =>
+            getJSON(res).then(json => {
+              dispatch(getNotes(note.notebookId));
+            })
+        },
+        actionTypes.DELETE_NOTE_FAILURE
       ]
     }
   });

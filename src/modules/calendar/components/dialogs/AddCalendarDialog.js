@@ -36,6 +36,7 @@ export default class AddCalendarDialog extends React.Component {
             id="calendarName"
             label="Calendar Name"
             fullWidth
+            inputProps={{ maxLength: 25 }}
             value={this.props.tempCalendar.title}
             onChange={this.handleCalendarTitleChange}
           />

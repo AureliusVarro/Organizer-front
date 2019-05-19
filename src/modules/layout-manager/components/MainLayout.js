@@ -36,7 +36,6 @@ import NotebookList from "../../notebook/components/NotebookList";
 
 import AddItemButtonsManager from "./add-item-buttons/AddItemButtonsManager";
 import MenuListPopper from "./menu-list-popper/MenuListPopper";
-import { Checkbox } from "@material-ui/core";
 
 const DRAWER_WIDTH_OPENED = 240;
 const DRAWER_WIDTH_CLOSED = 60;

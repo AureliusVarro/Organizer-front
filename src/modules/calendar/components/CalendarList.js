@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -30,7 +28,6 @@ const styles = theme => ({
     marginLeft: "32px"
   },
   margin: { margin: 0 },
-  listHeaderButton: {},
   listItem: {
     paddingTop: 0,
     paddingBottom: 0
@@ -38,34 +35,14 @@ const styles = theme => ({
 });
 
 class CalendarList extends React.Component {
-  state = {
-    anchorEl: null,
-    open: false
-  };
-
-  handleClick = event => {
-    this.setState({
-      anchorEl: event.currentTarget,
-      open: !this.state.open
-    });
-  };
-
-  handleStuff = item => event => {
+  onCheckboxToggle = item => event => {
     item.isDisplayed = event.target.checked;
     this.props.editCalendar(item);
   };
 
   toggleEditCalendarDialog = item => event => {
-    console.log(1);
     this.props.onTempCalendarUpdated({ id: item.id, title: item.title });
     this.props.onToggleEditCalendarDialog();
-  };
-
-  trimTitle = title => {
-    if (title) {
-      if (title.length <= 10) return title;
-      else return title.substring(0, 10) + "...";
-    } else return "NULL";
   };
 
   render() {
@@ -88,14 +65,14 @@ class CalendarList extends React.Component {
             <Checkbox
               className={classes.listItem}
               checked={item.isDisplayed}
-              onChange={this.handleStuff({
+              onChange={this.onCheckboxToggle({
                 id: item.id,
                 title: item.title
               })}
-              value="checkedB"
+              value="checked"
               color="primary"
             />
-            <ListItemText className={classes.listItem}>
+            <ListItemText className={classes.listItem} noWrap>
               {item.title}
             </ListItemText>
             <ListItemSecondaryAction>

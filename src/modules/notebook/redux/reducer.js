@@ -1,35 +1,17 @@
 import * as actionTypes from "./action-types";
-import { getCalendars } from "./action-creators";
 
 export const initialState = {
   isOpenedAddNotebookDialog: false,
   isOpenedEditNotebookDialog: false,
-  currentNote: {
-    title: "New Note",
-    text: "Lorem Ipsum",
-    notebookId: 0
-  },
+  currentNote: null,
   tempNotebook: { title: "New Notebook" },
   currentNotebook: null,
   notebooks: [],
-  notes: [
-    {
-      id: 77,
-      title: "New Note",
-      text: "Lorem Ipsum",
-      notebookId: 0
-    },
-    {
-      id: 228,
-      title: "New Note 2",
-      text: "Lorem Ipsum",
-      notebookId: 0
-    }
-  ],
+  notes: [],
   UPD: false
 };
 
-const layoutManager = (state = initialState, action) => {
+const notebook = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_ADD_NOTEBOOK_DIALOG:
       return {
@@ -62,12 +44,14 @@ const layoutManager = (state = initialState, action) => {
       return { ...state, isOpenedEditNotebookDialog: false };
 
     case actionTypes.GET_NOTES_SUCCESS:
-      console.log(actionTypes.GET_NOTES_SUCCESS, action.payload);
       return { ...state, notes: action.payload };
+
+    case actionTypes.UPDATE_CURRENT_NOTE:
+      return { ...state, currentNote: action.payload, UPD: !state.UPD };
 
     default:
       return state;
   }
 };
 
-export default layoutManager;
+export default notebook;

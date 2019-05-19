@@ -1,10 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
 
-import { Grid, Button, Divider, TextField, MenuItem } from "@material-ui/core";
+import { Grid, Button, TextField, MenuItem } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-
-import {} from "../redux/action-creators";
 
 const styles = theme => ({
   paper: {
@@ -21,6 +18,34 @@ const styles = theme => ({
 });
 
 class NoteEditor extends React.Component {
+  handleTitleChange = name => {
+    let updCurrentNote = this.props.currentNote;
+    updCurrentNote.title = name.target.value;
+    this.props.onCurrentNoteUpdated(updCurrentNote);
+  };
+
+  handleNotebookChange = name => {
+    console.log("notebookId", name.target.value);
+    let updCurrentNote = this.props.currentNote;
+    updCurrentNote.notebookId = name.target.value;
+    console.log("notebookId", updCurrentNote);
+    this.props.onCurrentNoteUpdated(updCurrentNote);
+  };
+
+  handleDescriptionChange = name => {
+    let updCurrentNote = this.props.currentNote;
+    updCurrentNote.text = name.target.value;
+    this.props.onCurrentNoteUpdated(updCurrentNote);
+  };
+
+  handleEditNote = () => {
+    this.props.editNote(this.props.currentNote);
+  };
+
+  handleDeleteNote = () => {
+    this.props.deleteNote(this.props.currentNote);
+  };
+
   render() {
     return (
       <Grid container spacing={8} direction="column">
@@ -32,23 +57,23 @@ class NoteEditor extends React.Component {
             label="Note Name"
             fullWidth
             value={this.props.currentNote.title}
-            onChange={this.handleEventNameChange}
+            onChange={this.handleTitleChange}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
-            id="select-calendar"
+            id="select-notebook"
             select
             label="Select Notebook"
             value={this.props.currentNote.notebookId}
-            onChange={this.handleEventCalendarChange}
+            onChange={this.handleNotebookChange}
             fullWidth
             margin="dense"
           >
-            {this.props.calendars &&
-              this.props.calendars.map(calendar => (
-                <MenuItem key={calendar.id} value={calendar.id}>
-                  {calendar.title}
+            {this.props.notebooks &&
+              this.props.notebooks.map(notebook => (
+                <MenuItem key={notebook.id} value={notebook.id}>
+                  {notebook.title}
                 </MenuItem>
               ))}
           </TextField>
@@ -64,7 +89,7 @@ class NoteEditor extends React.Component {
             rows={22}
             rowsMax={22}
             value={this.props.currentNote.text}
-            onChange={this.handleEventDescriptionChange}
+            onChange={this.handleDescriptionChange}
           />
         </Grid>
         <Grid
@@ -75,7 +100,11 @@ class NoteEditor extends React.Component {
           spacing={16}
         >
           <Grid item xs={2}>
-            <Button color="secondary" variant="outlined">
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={this.handleDeleteNote}
+            >
               Delete
             </Button>
           </Grid>
@@ -84,7 +113,11 @@ class NoteEditor extends React.Component {
               <Button>Cancel</Button>
             </Grid>
             <Grid item xs={3}>
-              <Button color="primary" variant="contained">
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.handleEditNote}
+              >
                 Save
               </Button>
             </Grid>
@@ -95,15 +128,4 @@ class NoteEditor extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ...state.notes
-});
-
-const mapDispatchToProps = {};
-
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(NoteEditor)
-);
+export default withStyles(styles)(NoteEditor);

@@ -19,15 +19,13 @@ import {
   onToggleAddNotebookDialog,
   onTempNotebookUpdated,
   onCurrentNotebookUpdated,
+  onCurrentNoteUpdated,
   getNotebooks,
   editNotebook,
   getNotes
 } from "../redux/action-creators";
 
 const styles = theme => ({
-  indent: {
-    marginLeft: "32px"
-  },
   margin: { margin: 0 },
   listItem: {
     paddingTop: 0,
@@ -37,20 +35,14 @@ const styles = theme => ({
 
 class NotebookList extends React.Component {
   handleUpdateCurrentNotebook = item => event => {
+    this.props.onCurrentNoteUpdated(null);
     this.props.onCurrentNotebookUpdated(item);
-    this.props.getNotes(item);
+    this.props.getNotes(item.id);
   };
 
   toggleEditNotebookDialog = item => event => {
     this.props.onTempNotebookUpdated({ id: item.id, title: item.title });
     this.props.onToggleEditNotebookDialog();
-  };
-
-  trimTitle = title => {
-    if (title) {
-      if (title.length <= 11) return title;
-      else return title.substring(0, 11) + "...";
-    } else return "NULL";
   };
 
   render() {
@@ -93,11 +85,14 @@ class NotebookList extends React.Component {
   }
 }
 
+//Remove this
+
 const mapDispatchToProps = {
   onToggleEditNotebookDialog,
   onToggleAddNotebookDialog,
   onTempNotebookUpdated,
   onCurrentNotebookUpdated,
+  onCurrentNoteUpdated,
   getNotebooks,
   editNotebook,
   getNotes

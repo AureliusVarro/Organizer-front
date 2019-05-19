@@ -25,9 +25,6 @@ import {
 } from "../redux/action-creators";
 
 const styles = theme => ({
-  indent: {
-    marginLeft: "32px"
-  },
   margin: { margin: 0 },
   listItem: {
     paddingTop: 0,
@@ -46,51 +43,42 @@ class TodoListList extends React.Component {
     this.props.onToggleEditTodoListDialog();
   };
 
-  trimTitle = title => {
-    if (title) {
-      if (title.length <= 12) return title;
-      else return title.substring(0, 12) + "...";
-    } else return "NULL";
-  };
-
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <List>
-          <ListSubheader>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={this.props.onToggleAddTodoListDialog}
-            >
-              <AddIcon />
-              Todo List
-            </Button>
-          </ListSubheader>
-          {this.props.todoLists.map((item, index) => (
-            <ListItem
-              key={index}
-              button
-              onClick={this.handleUpdateCurrentTodoList(item)}
-            >
-              <ListItemText className={classes.listItem}>
-                {item.title}
-              </ListItemText>
-              <ListItemSecondaryAction>
-                <IconButton
-                  aria-label="Edit"
-                  className={classes.margin}
-                  onClick={this.toggleEditTodoListDialog(item)}
-                >
-                  <EditIcon className={classes.margin} fontSize="small" />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
-      </div>
+      <List>
+        <ListSubheader>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={this.props.onToggleAddTodoListDialog}
+          >
+            <AddIcon />
+            Todo List
+          </Button>
+        </ListSubheader>
+        {this.props.todoLists.map((item, index) => (
+          <ListItem
+            key={index}
+            button
+            onClick={this.handleUpdateCurrentTodoList(item)}
+          >
+            <ListItemText className={classes.listItem}>
+              {item.title}
+            </ListItemText>
+            <ListItemSecondaryAction>
+              <IconButton
+                aria-label="Edit"
+                className={classes.margin}
+                onClick={this.toggleEditTodoListDialog(item)}
+              >
+                <EditIcon className={classes.margin} fontSize="small" />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
+      </List>
     );
   }
 }

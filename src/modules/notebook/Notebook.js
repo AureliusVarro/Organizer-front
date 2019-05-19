@@ -1,22 +1,16 @@
 import React from "react";
-import { connect } from "react-redux";
-
 import {
+  Button,
   Grid,
   Paper,
   Typography,
-  Button,
   Divider,
-  TextField,
-  MenuItem,
   List,
   ListItem,
   ListItemText
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import classNames from "classnames";
 
-import {} from "./redux/action-creators";
 import NoteEditor from "./components/NoteEditor";
 
 const styles = theme => ({
@@ -27,73 +21,99 @@ const styles = theme => ({
   },
   notePaperGrid: {
     height: "100%"
-  },
-  indent: {
-    marginLeft: "32px"
-  },
-  padding: {
-    margin: "18px"
   }
 });
 
 class Notebook extends React.Component {
   handleSelectNote = (event, note) => {
-    console.log("shit", note, event);
+    console.log("Note", note);
+    this.props.onCurrentNoteUpdated({
+      id: note.id,
+      title: note.title,
+      notebookId: note.notebookId,
+      text: note.text
+    });
+  };
+
+  handleAddNote = () => {
+    this.props.addNote({
+      notebookId: this.props.currentNotebook.id,
+      title: "New Note",
+      text: "Text"
+    });
   };
 
   render() {
-    const deleteWhenDone = (
-      <div>
-        <Button
-          variant="contained"
-          className={classNames.indent}
-          disabled={"item.id" == this.props.currentNote.id}
-          onClick={this.handleSelectNote("item")}
-        >
-          {console.log(this.props.currentNote.id)}
-          <Typography>item.title</Typography>
-        </Button>
-        <Divider />
-      </div>
-    );
-
+    const {
+      //Actions
+      onCurrentNoteUpdated,
+      editNote,
+      deleteNote,
+      //State
+      classes,
+      notebooks,
+      notes,
+      currentNote
+    } = this.props;
     return (
       <Grid
-        className={this.props.classes.notePaperGrid}
+        className={classes.notePaperGrid}
         container
         direction="row"
         spacing={24}
         alignItems="stretch"
       >
         <Grid item xs={6}>
-          <Paper className={this.props.classes.paper}>
+          <Paper className={classes.paper}>
             <Typography variant="h4">
               {this.props.currentNotebook
                 ? this.props.currentNotebook.title
                 : "Loading..."}
             </Typography>
             <Divider />
-            <List>
-              {this.props.notes.map(item => (
-                <ListItem
-                  key={item.id}
-                  button
-                  selected={
-                    this.props.currentNote &&
-                    this.props.currentNote.id === item.id
-                  }
-                  onClick={event => this.handleSelectNote(event, item)}
+            {notes[0] ? (
+              <List>
+                {notes.map(item => (
+                  <ListItem
+                    key={item.id}
+                    button
+                    selected={currentNote && currentNote.id === item.id}
+                    onClick={event => this.handleSelectNote(event, item)}
+                  >
+                    <ListItemText primary={item.title} />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <React.Fragment>
+                <Typography>
+                  {"You don't hane any notes in this notebook"}
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleAddNote}
                 >
-                  <ListItemText primary={item.title} />
-                </ListItem>
-              ))}
-            </List>
+                  Create a note?
+                </Button>
+              </React.Fragment>
+            )}
           </Paper>
         </Grid>
         <Grid item xs={6}>
           <Paper className={this.props.classes.paper}>
             <Typography variant="h4">Edit Note</Typography>
-            {this.props.currentNote ? <NoteEditor /> : "Loading..."}
+            {currentNote ? (
+              <NoteEditor
+                onCurrentNoteUpdated={onCurrentNoteUpdated}
+                editNote={editNote}
+                deleteNote={deleteNote}
+                notebooks={notebooks}
+                currentNote={currentNote}
+              />
+            ) : (
+              "No note selected"
+            )}
           </Paper>
         </Grid>
       </Grid>
@@ -101,15 +121,4 @@ class Notebook extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ...state.notes
-});
-
-const mapDispatchToProps = {};
-
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Notebook)
-);
+export default withStyles(styles)(Notebook);
