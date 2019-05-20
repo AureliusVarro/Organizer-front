@@ -94,7 +94,7 @@ export const editNotebook = notebook => dispatch =>
     }
   });
 
-export const deleteNotebook = notebook => dispatch =>
+export const deleteNotebook = notebook => (dispatch, getState) =>
   dispatch({
     [RSAA]: {
       method: "DELETE",
@@ -107,6 +107,8 @@ export const deleteNotebook = notebook => dispatch =>
           payload: (action, state, res) =>
             getJSON(res).then(json => {
               dispatch(getNotebooks());
+              if (notebook.id === getState().notes.currentNotebook.id)
+                dispatch(onCurrentNotebookUpdated(null));
             })
         },
         actionTypes.DELETE_NOTEBOOK_FAILURE

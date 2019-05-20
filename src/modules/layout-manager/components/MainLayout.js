@@ -293,7 +293,7 @@ class MainLayout extends React.Component {
                   <EventIcon />
                 </ListItemIcon>
                 {isOpenedSidebar && (
-                  <div>
+                  <React.Fragment>
                     <ListItemText
                       className={classes.navItemTextBox}
                       primary={internalUrls.HOME.linkTitle}
@@ -305,7 +305,7 @@ class MainLayout extends React.Component {
                         </MenuListPopper>
                       </ListItemSecondaryAction>
                     )}
-                  </div>
+                  </React.Fragment>
                 )}
               </ListItem>
 
@@ -319,7 +319,7 @@ class MainLayout extends React.Component {
                   <DoneOutlineIcon />
                 </ListItemIcon>
                 {isOpenedSidebar && (
-                  <div>
+                  <React.Fragment>
                     <ListItemText
                       className={classes.navItemTextBox}
                       primary={internalUrls.TODO.linkTitle}
@@ -331,7 +331,7 @@ class MainLayout extends React.Component {
                         </MenuListPopper>
                       </ListItemSecondaryAction>
                     )}
-                  </div>
+                  </React.Fragment>
                 )}
               </ListItem>
 
@@ -345,7 +345,7 @@ class MainLayout extends React.Component {
                   <NotesIcon />
                 </ListItemIcon>
                 {isOpenedSidebar && (
-                  <div>
+                  <React.Fragment>
                     <ListItemText
                       className={classes.navItemTextBox}
                       primary={internalUrls.NOTES.linkTitle}
@@ -357,7 +357,7 @@ class MainLayout extends React.Component {
                         </MenuListPopper>
                       </ListItemSecondaryAction>
                     )}
-                  </div>
+                  </React.Fragment>
                 )}
               </ListItem>
 
