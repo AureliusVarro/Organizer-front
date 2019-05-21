@@ -137,11 +137,7 @@ class MainLayout extends React.Component {
   };
 
   handleAddNote = () => {
-    this.props.addNote({
-      notebookId: this.props.currentNotebook.id,
-      title: "New Note",
-      text: "Text"
-    });
+    this.props.addNote();
   };
 
   render() {

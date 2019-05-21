@@ -16,17 +16,17 @@ import NoteEditor from "./components/NoteEditor";
 const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
-    height: "100%",
-    color: theme.palette.text.secondary
+    maxHeight: "95%",
+    color: theme.palette.text.secondary,
+    overflow: "auto"
   },
   notePaperGrid: {
-    height: "100%"
+    maxHeight: "100vh"
   }
 });
 
 class Notebook extends React.Component {
   handleSelectNote = (event, note) => {
-    console.log("Note", note);
     this.props.onCurrentNoteUpdated({
       id: note.id,
       title: note.title,
@@ -43,15 +43,21 @@ class Notebook extends React.Component {
     });
   };
 
+  handleAddNotebook = () => {
+    this.props.onToggleAddNotebookDialog();
+  };
+
   render() {
     const {
       //Actions
+      onToggleAddNotebookDialog,
       onCurrentNoteUpdated,
       editNote,
       deleteNote,
       //State
       classes,
       notebooks,
+      currentNotebook,
       notes,
       currentNote
     } = this.props;
@@ -66,12 +72,10 @@ class Notebook extends React.Component {
         <Grid item xs={6}>
           <Paper className={classes.paper}>
             <Typography variant="h4">
-              {this.props.currentNotebook
-                ? this.props.currentNotebook.title
-                : "Loading..."}
+              {currentNotebook ? currentNotebook.title : "Loading..."}
             </Typography>
             <Divider />
-            {notes[0] ? (
+            {notes[0] !== undefined && notes[0] !== null ? (
               <List>
                 {notes.map(item => (
                   <ListItem
@@ -84,7 +88,7 @@ class Notebook extends React.Component {
                   </ListItem>
                 ))}
               </List>
-            ) : (
+            ) : currentNotebook ? (
               <React.Fragment>
                 <Typography>
                   {"You don't hane any notes in this notebook"}
@@ -95,6 +99,17 @@ class Notebook extends React.Component {
                   onClick={this.handleAddNote}
                 >
                   Create a note?
+                </Button>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Typography>{"You don't hane any notebooks"}</Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleAddNotebook}
+                >
+                  Create a notebook?
                 </Button>
               </React.Fragment>
             )}

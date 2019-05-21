@@ -6,11 +6,12 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
-    height: "100%",
-    color: theme.palette.text.secondary
+    height: "100hv",
+    color: theme.palette.text.secondary,
+    overflow: "auto"
   },
   notePaperGrid: {
-    height: "100%"
+    height: "100hv"
   },
   indent: {
     marginLeft: "32px"
@@ -108,19 +109,15 @@ class NoteEditor extends React.Component {
               Delete
             </Button>
           </Grid>
-          <Grid item container xs={8} spacing={8} justify="flex-end">
-            <Grid item xs={3}>
-              <Button>Cancel</Button>
-            </Grid>
-            <Grid item xs={3}>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={this.handleEditNote}
-              >
-                Save
-              </Button>
-            </Grid>
+
+          <Grid item xs={3}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={this.handleEditNote}
+            >
+              Save
+            </Button>
           </Grid>
         </Grid>
       </Grid>

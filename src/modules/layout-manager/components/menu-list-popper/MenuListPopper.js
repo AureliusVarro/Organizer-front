@@ -43,7 +43,7 @@ class MenuListPopper extends React.Component {
     const { anchorEl, open } = this.state;
     const id = open ? "menu-list-popper" : null;
     return (
-      <div>
+      <React.Fragment>
         <IconButton
           aria-describedby={id}
           aria-label="arrow"
@@ -72,7 +72,7 @@ class MenuListPopper extends React.Component {
             </Fade>
           )}
         </Popper>
-      </div>
+      </React.Fragment>
     );
   }
 }

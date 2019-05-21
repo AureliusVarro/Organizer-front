@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import Notebook from "./Notebook";
 
 import {
+  onToggleAddNotebookDialog,
   onCurrentNoteUpdated,
   addNote,
   editNote,
@@ -13,6 +14,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  onToggleAddNotebookDialog,
   onCurrentNoteUpdated,
   addNote,
   editNote,
