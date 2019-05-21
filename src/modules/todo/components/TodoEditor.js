@@ -128,19 +128,14 @@ class TodoEditor extends React.Component {
               Delete
             </Button>
           </Grid>
-          <Grid item container xs={8} spacing={8} justify="flex-end">
-            <Grid item xs={3}>
-              <Button>Cancel</Button>
-            </Grid>
-            <Grid item xs={3}>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={this.handleEditTodo}
-              >
-                Save
-              </Button>
-            </Grid>
+          <Grid item xs={2}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={this.handleEditTodo}
+            >
+              Save
+            </Button>
           </Grid>
         </Grid>
       </Grid>

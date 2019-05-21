@@ -110,7 +110,7 @@ class NoteEditor extends React.Component {
             </Button>
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Button
               color="primary"
               variant="contained"

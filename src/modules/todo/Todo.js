@@ -89,7 +89,7 @@ class Todo extends React.Component {
                       selected={currentTodo && currentTodo.id === item.id}
                       onClick={event => this.handleSelectTodo(event, item)}
                     >
-                      <ListItemText primary={item.text} />
+                      <ListItemText primary={item.title} />
                     </ListItem>
                   ))}
                 </List>
