@@ -27,7 +27,6 @@ import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 import EventIcon from "@material-ui/icons/Event";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import AddIcon from "@material-ui/icons/Add";
 
 import internalUrls from "../../../common/constants/internal-urls";
 import CalendarList from "../../calendar/components/CalendarList";
@@ -129,11 +128,7 @@ class MainLayout extends React.Component {
   };
 
   handleAddTodo = () => {
-    this.props.addTodo({
-      todoListId: this.props.currentTodoList.id,
-      text: "Description",
-      isDone: false
-    });
+    this.props.addTodo();
   };
 
   handleAddNote = () => {
@@ -157,42 +152,6 @@ class MainLayout extends React.Component {
     } = this.props;
 
     const isOpenUserMenu = Boolean(this.state.anchorEl);
-
-    let calendarList = null;
-    let todoListList = null;
-    let notebookList = null;
-    let addCalendarButton = null;
-    let addTodoListButton = null;
-    let addNotebookButton = null;
-    if (pathname === internalUrls.HOME.path) {
-      calendarList = <CalendarList />;
-      addCalendarButton = (
-        <IconButton
-          aria-label="AddCalendar"
-          onClick={onToggleAddCalendarDialog}
-        >
-          <AddIcon />
-        </IconButton>
-      );
-    } else if (pathname === internalUrls.TODO.path) {
-      todoListList = <TodoListList />;
-      addTodoListButton = (
-        <ListItemSecondaryAction onClick={onToggleAddTodoListDialog}>
-          <IconButton aria-label="AddTodoList">
-            <AddIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      );
-    } else if (pathname === internalUrls.NOTES.path) {
-      notebookList = <NotebookList />;
-      addNotebookButton = (
-        <ListItemSecondaryAction onClick={onToggleAddNotebookDialog}>
-          <IconButton aria-label="AddNotebook">
-            <AddIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      );
-    }
 
     return (
       <div className={classes.rootLayout}>

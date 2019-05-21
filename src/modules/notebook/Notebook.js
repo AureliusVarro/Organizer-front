@@ -15,13 +15,16 @@ import NoteEditor from "./components/NoteEditor";
 
 const styles = theme => ({
   paper: {
+    margin: "0",
     padding: theme.spacing.unit * 2,
     maxHeight: "95%",
+    height: "95%",
     color: theme.palette.text.secondary,
     overflow: "auto"
   },
   notePaperGrid: {
-    maxHeight: "100vh"
+    maxHeight: "98vh",
+    overflow: "auto"
   }
 });
 
@@ -69,7 +72,7 @@ class Notebook extends React.Component {
         spacing={24}
         alignItems="stretch"
       >
-        <Grid item xs={6}>
+        <Grid item xs={6} className={classes.notePaperGrid}>
           <Paper className={classes.paper}>
             <Typography variant="h4">
               {currentNotebook ? currentNotebook.title : "Loading..."}
@@ -115,7 +118,7 @@ class Notebook extends React.Component {
             )}
           </Paper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} className={classes.notePaperGrid}>
           <Paper className={this.props.classes.paper}>
             <Typography variant="h4">Edit Note</Typography>
             {currentNote ? (

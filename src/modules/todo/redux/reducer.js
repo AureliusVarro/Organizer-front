@@ -1,5 +1,4 @@
 import * as actionTypes from "./action-types";
-import { getCalendars } from "./action-creators";
 
 export const initialState = {
   isOpenedAddTodoListDialog: false,
@@ -13,7 +12,9 @@ export const initialState = {
   tempTodoList: { title: "New ToDo List" },
   currentTodoList: null,
   todoLists: [],
-  todos: [],
+  activeTodos: [],
+  doneTodos: [],
+  currentTodo: null,
   UPD: false
 };
 
@@ -50,7 +51,25 @@ const layoutManager = (state = initialState, action) => {
       return { ...state, isOpenedEditTodoListDialog: false };
 
     case actionTypes.GET_TODOS_SUCCESS:
-      return { ...state, todos: action.payload };
+      let tempActiveTodos = [];
+      let tempDoneTodos = [];
+      if (action.payload[0])
+        action.payload.map(item => {
+          if (item.isDone) {
+            tempDoneTodos.push(item);
+          } else {
+            tempActiveTodos.push(item);
+          }
+        });
+
+      return {
+        ...state,
+        activeTodos: tempActiveTodos,
+        doneTodos: tempDoneTodos
+      };
+
+    case actionTypes.UPDATE_CURRENT_TODO:
+      return { ...state, currentTodo: action.payload, UPD: !state.UPD };
 
     default:
       return state;

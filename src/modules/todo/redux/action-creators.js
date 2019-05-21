@@ -14,15 +14,13 @@ export const onToggleEditTodoListDialog = () => ({
 export const onTempTodoListUpdated = tempTodoListData => ({
   type: actionTypes.UPDATE_TEMP_TODOLIST,
   payload: tempTodoListData || {
-    title: "New Todo List"
+    title: "New TodoList"
   }
 });
 
 export const onCurrentTodoListUpdated = tempTodoListData => ({
   type: actionTypes.UPDATE_CURRENT_TODOLIST,
-  payload: tempTodoListData || {
-    title: "New Todo List"
-  }
+  payload: tempTodoListData
 });
 
 export const saveTodoLists = todoListData => ({
@@ -43,9 +41,9 @@ export const getTodoLists = () => (dispatch, getState) =>
           payload: (action, state, res) =>
             getJSON(res).then(json => {
               dispatch(saveTodoLists(json));
-              if (!getState().currentTodoList && json[0]) {
+              if (!getState().todos.currentTodoList && json[0]) {
                 dispatch(onCurrentTodoListUpdated(json[0]));
-                dispatch(getTodos(json[0]));
+                dispatch(getTodos(json[0].id));
               }
             })
         },
@@ -96,7 +94,7 @@ export const editTodoList = todoList => dispatch =>
     }
   });
 
-export const deleteTodoList = todoList => dispatch =>
+export const deleteTodoList = todoList => (dispatch, getState) =>
   dispatch({
     [RSAA]: {
       method: "DELETE",
@@ -109,6 +107,8 @@ export const deleteTodoList = todoList => dispatch =>
           payload: (action, state, res) =>
             getJSON(res).then(json => {
               dispatch(getTodoLists());
+              if (todoList.id === getState().todos.currentTodoList.id)
+                dispatch(onCurrentTodoListUpdated(null));
             })
         },
         actionTypes.DELETE_TODOLIST_FAILURE
@@ -116,11 +116,16 @@ export const deleteTodoList = todoList => dispatch =>
     }
   });
 
-export const getTodos = todoList => dispatch =>
+export const onCurrentTodoUpdated = tempTodoData => ({
+  type: actionTypes.UPDATE_CURRENT_TODO,
+  payload: tempTodoData
+});
+
+export const getTodos = todoListId => dispatch =>
   dispatch({
     [RSAA]: {
       method: "GET",
-      endpoint: apiUrls.GET_TODOS + "/" + todoList.id,
+      endpoint: apiUrls.GET_TODOS + "/" + todoListId,
       headers: jsonRequestHeader,
       types: [
         actionTypes.GET_TODOS_REQUEST,
@@ -130,32 +135,77 @@ export const getTodos = todoList => dispatch =>
     }
   });
 
-export const addTodo = todoList => dispatch =>
-  dispatch({
-    [RSAA]: {
-      method: "POST",
-      endpoint: apiUrls.ADD_TODO,
-      body: JSON.stringify(todoList),
-      headers: jsonRequestHeader,
-      types: [
-        actionTypes.ADD_TODO_REQUEST,
-        actionTypes.ADD_TODO_SUCCESS,
-        actionTypes.ADD_TODO_FAILURE
-      ]
-    }
-  });
+export const addTodo = () => (dispatch, getState) => {
+  if (getState().todos.todoLists[0] && getState().todos.currentTodoList) {
+    console.log(1);
+    dispatch({
+      [RSAA]: {
+        method: "POST",
+        endpoint: apiUrls.ADD_TODO,
+        body: JSON.stringify({
+          todoListId: getState().todos.currentTodoList.id,
+          title: "New Todo",
+          text: "Text"
+        }),
+        headers: jsonRequestHeader,
+        types: [
+          actionTypes.ADD_TODO_REQUEST,
+          {
+            type: actionTypes.ADD_TODO_SUCCESS,
+            payload: (action, state, res) =>
+              getJSON(res).then(json => {
+                dispatch(getTodos(json.todoListId));
+              })
+          },
+          actionTypes.ADD_TODO_FAILURE
+        ]
+      }
+    });
+  } else {
+    console.log(2);
+    dispatch(onToggleAddTodoListDialog());
+  }
+};
 
-export const editTodo = todoList => dispatch =>
+export const editTodo = todo => (dispatch, getState) =>
   dispatch({
     [RSAA]: {
       method: "PUT",
       endpoint: apiUrls.EDIT_TODO,
-      body: JSON.stringify(todoList),
+      body: JSON.stringify(todo),
       headers: jsonRequestHeader,
       types: [
         actionTypes.EDIT_TODO_REQUEST,
-        actionTypes.EDIT_TODO_SUCCESS,
+        {
+          type: actionTypes.EDIT_TODO_SUCCESS,
+          payload: (action, state, res) =>
+            getJSON(res).then(json => {
+              dispatch(getTodos(getState().todos.currentTodoList.id));
+            })
+        },
         actionTypes.EDIT_TODO_FAILURE
+      ]
+    }
+  });
+
+export const deleteTodo = todo => (dispatch, getState) =>
+  dispatch({
+    [RSAA]: {
+      method: "DELETE",
+      endpoint: apiUrls.DELETE_TODO + "/" + todo.id,
+      headers: jsonRequestHeader,
+      types: [
+        actionTypes.DELETE_TODO_REQUEST,
+        {
+          type: actionTypes.DELETE_TODO_SUCCESS,
+          payload: (action, state, res) =>
+            getJSON(res).then(json => {
+              dispatch(getTodos(todo.todoListId));
+              if (todo.id === getState().todos.currentTodo.id)
+                dispatch(onCurrentTodoUpdated(null));
+            })
+        },
+        actionTypes.DELETE_TODO_FAILURE
       ]
     }
   });
