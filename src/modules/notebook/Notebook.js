@@ -7,8 +7,10 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  ListSubheader
 } from "@material-ui/core";
+import { sizing, maxHeight } from "@material-ui/system";
 import { withStyles } from "@material-ui/core/styles";
 
 import NoteEditor from "./components/NoteEditor";
@@ -17,14 +19,13 @@ const styles = theme => ({
   paper: {
     margin: "0",
     padding: theme.spacing.unit * 2,
-    maxHeight: "95%",
-    height: "95%",
+    maxHeight: "93%",
+    height: "93%",
     color: theme.palette.text.secondary,
     overflow: "auto"
   },
   notePaperGrid: {
-    maxHeight: "98vh",
-    overflow: "auto"
+    maxHeight: "98vh"
   }
 });
 
@@ -74,12 +75,17 @@ class Notebook extends React.Component {
       >
         <Grid item xs={6} className={classes.notePaperGrid}>
           <Paper className={classes.paper}>
-            <Typography variant="h4">
-              {currentNotebook ? currentNotebook.title : "Loading..."}
-            </Typography>
-            <Divider />
             {notes[0] !== undefined && notes[0] !== null ? (
-              <List>
+              <List
+                subheader={
+                  <ListSubheader>
+                    <Typography variant="h4">
+                      {currentNotebook ? currentNotebook.title : "Loading..."}
+                    </Typography>
+                    <Divider />
+                  </ListSubheader>
+                }
+              >
                 {notes.map(item => (
                   <ListItem
                     key={item.id}
