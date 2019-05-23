@@ -5,14 +5,14 @@ import internalUrls from "../../common/constants/internal-urls";
 
 import "./todo-page.scss";
 
-import Todo from "../../modules/todo/Todo";
+import TodoContainer from "../../modules/todo/TodoContainer";
 import TodoListDialogContainer from "../../modules/todo/components/TodoListDialogContainer";
 
 const TodoPage = () => (
   <DocumentTitle title={internalUrls.TODO.pageTitle}>
     <div className="todo-page">
       <TodoListDialogContainer />
-      <Todo />
+      <TodoContainer />
     </div>
   </DocumentTitle>
 );

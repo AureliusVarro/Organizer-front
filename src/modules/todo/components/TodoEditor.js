@@ -6,7 +6,9 @@ import {
   TextField,
   MenuItem,
   Checkbox,
-  Typography
+  Typography,
+  FormGroup,
+  FormControlLabel
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -73,16 +75,20 @@ class TodoEditor extends React.Component {
             onChange={this.handleTitleChange}
           />
         </Grid>
-        <Grid item container xs={12}>
-          <Grid item xs={3}>
-            <Checkbox
-              checked={this.props.currentTodo.isDone}
-              onChange={this.handleIsDoneChange}
+        <Grid item xs={12}>
+          <FormGroup row>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  color="primary"
+                  checked={this.props.currentTodo.isDone}
+                  onChange={this.handleIsDoneChange}
+                  value="checkedA"
+                />
+              }
+              label="Done"
             />
-          </Grid>
-          <Grid item xs={3}>
-            <Typography> Is Done </Typography>
-          </Grid>
+          </FormGroup>
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -110,8 +116,8 @@ class TodoEditor extends React.Component {
             multiline
             fullWidth
             margin="dense"
-            rows={22}
-            rowsMax={22}
+            rows={18}
+            rowsMax={18}
             value={this.props.currentTodo.text}
             onChange={this.handleDescriptionChange}
           />

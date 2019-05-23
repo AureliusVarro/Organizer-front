@@ -143,6 +143,7 @@ export default class AddEventDialog extends React.Component {
                       margin="normal"
                       label="Start Time"
                       value={tempEvent.start}
+                      ampm={false}
                       onChange={this.handleStartTimeChange}
                     />
                   </Grid>
@@ -151,6 +152,7 @@ export default class AddEventDialog extends React.Component {
                       margin="normal"
                       label="End Time"
                       value={this.props.tempEvent.end}
+                      ampm={false}
                       onChange={this.handleEndTimeChange}
                     />
                   </Grid>

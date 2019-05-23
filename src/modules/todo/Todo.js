@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 
 import {
   Grid,
@@ -14,28 +13,28 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import TodoEditor from "./components/TodoEditor";
 
-import {
-  onCurrentTodoUpdated,
-  addTodo,
-  editTodo,
-  deleteTodo
-} from "./redux/action-creators";
-
 const styles = theme => ({
   paper: {
+    margin: "0",
     padding: theme.spacing.unit * 2,
     maxHeight: "95%",
-    overflow: "auto",
-    color: theme.palette.text.secondary
+    height: "95%",
+    color: theme.palette.text.secondary,
+    overflow: "auto"
   },
   todoPaperGrid: {
-    height: "100%"
+    maxHeight: "95vh",
+    height: "95vh"
   }
 });
 
 class Todo extends React.Component {
   handleAddTodo = () => {
     this.props.addTodo();
+  };
+
+  handleAddTodoList = () => {
+    this.props.onToggleAddTodoListDialog();
   };
 
   handleSelectTodo = (event, todo) => {
@@ -70,12 +69,10 @@ class Todo extends React.Component {
         spacing={24}
         alignItems="stretch"
       >
-        <Grid item xs={6}>
+        <Grid item xs={6} className={classes.todoPaperGrid}>
           <Paper className={classes.paper}>
             <Typography variant="h4">
-              {this.props.currentTodoList
-                ? this.props.currentTodoList.title
-                : "Loading..."}
+              {currentTodoList ? currentTodoList.title : "Loading..."}
             </Typography>
             <Divider />
             {activeTodos[0] || doneTodos[0] ? (
@@ -134,7 +131,7 @@ class Todo extends React.Component {
             )}
           </Paper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} className={classes.todoPaperGrid}>
           <Paper className={this.props.classes.paper}>
             <Typography variant="h4">Edit Todo</Typography>
             {currentTodo ? (
@@ -155,20 +152,4 @@ class Todo extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ...state.todos
-});
-
-const mapDispatchToProps = {
-  onCurrentTodoUpdated,
-  addTodo,
-  editTodo,
-  deleteTodo
-};
-
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Todo)
-);
+export default withStyles(styles)(Todo);

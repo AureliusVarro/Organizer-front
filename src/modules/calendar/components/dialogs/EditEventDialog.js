@@ -141,6 +141,7 @@ export default class EditEventDialog extends React.Component {
                       margin="normal"
                       label="Start Time"
                       value={tempEvent.start}
+                      ampm={false}
                       onChange={this.handleStartTimeChange}
                     />
                   </Grid>
@@ -149,6 +150,7 @@ export default class EditEventDialog extends React.Component {
                       margin="normal"
                       label="End Time"
                       value={tempEvent.end}
+                      ampm={false}
                       onChange={this.handleEndTimeChange}
                     />
                   </Grid>
