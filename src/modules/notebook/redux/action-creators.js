@@ -88,7 +88,8 @@ export const editNotebook = notebook => (dispatch, getState) =>
             getJSON(res).then(json => {
               dispatch(getNotebooks());
               console.log(json);
-              //TODO: handle current notebook editing
+              if (notebook.id == getState().notes.currentNotebook.id)
+                dispatch(onCurrentNotebookUpdated(notebook));
             })
         },
         actionTypes.EDIT_NOTEBOOK_FAILURE

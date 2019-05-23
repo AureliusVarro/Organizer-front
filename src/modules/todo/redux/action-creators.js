@@ -87,6 +87,8 @@ export const editTodoList = todoList => dispatch =>
           payload: (action, state, res) =>
             getJSON(res).then(json => {
               dispatch(getTodoLists());
+              if (todoList.id === getState().todos.currentTodoList.id)
+                dispatch(onCurrentTodoListUpdated(todoList));
             })
         },
         actionTypes.EDIT_TODOLIST_FAILURE
