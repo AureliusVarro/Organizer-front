@@ -34,10 +34,10 @@ class Calendar extends React.Component {
     this.props.editEvent(updTempEvent);
   };
 
-  handleSelectEventSlot = calendarProps => {
+  handleSelectEventSlot = eventProps => {
     let updTempEvent = this.props.tempEvent;
-    updTempEvent.start = calendarProps.start;
-    updTempEvent.end = calendarProps.end;
+    updTempEvent.start = eventProps.start;
+    updTempEvent.end = eventProps.end;
     console.log("handleSelectEventSlot: ", updTempEvent);
     this.props.onTempEventUpdated(updTempEvent);
     this.props.onToggleAddEventDialog();
@@ -45,7 +45,7 @@ class Calendar extends React.Component {
 
   handleSelectEvent = eventProps => {
     console.log("handleSelectEvent: ", eventProps);
-    this.props.onTempEventUpdated(eventProps);
+    this.props.onTempEventUpdated(Object.assign(eventProps));
     this.props.onToggleEditEventDialog();
   };
 

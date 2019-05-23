@@ -1,5 +1,5 @@
 import * as actionTypes from "./action-types";
-import { getCalendars } from "./action-creators";
+import { getLocaleFromGMT } from "../../../common/utils/getLocaleFromGMT";
 
 export const initialState = {
   isOpenedAddEventDialog: false,
@@ -54,20 +54,24 @@ const layoutManager = (state = initialState, action) => {
       return { ...state, calendars: action.payload };
 
     case actionTypes.ADD_CALENDAR_SUCCESS:
-      return { ...state, isOpenedAddCalendarDialog: false, tempCalendar: null };
+      return {
+        ...state,
+        isOpenedAddCalendarDialog: false,
+        tempCalendar: { title: "New Calendar", isDisplayed: false }
+      };
 
     case actionTypes.EDIT_CALENDAR_SUCCESS:
       return {
         ...state,
         isOpenedEditCalendarDialog: false,
-        tempCalendar: null
+        tempCalendar: { title: "New Calendar", isDisplayed: false }
       };
 
     case actionTypes.DELETE_CALENDAR_SUCCESS:
       return {
         ...state,
         isOpenedEditCalendarDialog: false,
-        tempCalendar: null
+        tempCalendar: { title: "New Calendar", isDisplayed: false }
       };
 
     case actionTypes.CLEAR_EVENTS:
@@ -76,8 +80,8 @@ const layoutManager = (state = initialState, action) => {
     case actionTypes.GET_EVENTS_SUCCESS:
       let tempEvents = action.payload || [];
       tempEvents.map(item => {
-        item.start = new Date(item.start);
-        item.end = new Date(item.end);
+        item.start = getLocaleFromGMT(new Date(item.start));
+        item.end = getLocaleFromGMT(new Date(item.end));
       });
       return {
         ...state,
