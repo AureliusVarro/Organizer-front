@@ -1,14 +1,15 @@
 import * as actionTypes from "./action-types";
+import { defaultContact } from "../constants/defaults";
 
 export const initialState = {
   isOpenedAddContactDialog: false,
   isOpenedEditContactDialog: false,
-  tempContact: { name: "New Contact", email: "", phoneNumber: "" },
+  tempContact: defaultContact,
   contacts: [],
   UPD: false
 };
 
-const layoutManager = (state = initialState, action) => {
+const contacts = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_ADD_CONTACT_DIALOG:
       return {
@@ -32,14 +33,22 @@ const layoutManager = (state = initialState, action) => {
       return { ...state, isOpenedAddContactDialog: false };
 
     case actionTypes.EDIT_CONTACT_SUCCESS:
-      return { ...state, isOpenedEditContactDialog: false };
+      return {
+        ...state,
+        isOpenedEditContactDialog: false,
+        tempContact: defaultContact
+      };
 
     case actionTypes.DELETE_CONTACT_SUCCESS:
-      return { ...state, isOpenedEditContactDialog: false };
+      return {
+        ...state,
+        isOpenedEditContactDialog: false,
+        tempContact: defaultContact
+      };
 
     default:
       return state;
   }
 };
 
-export default layoutManager;
+export default contacts;

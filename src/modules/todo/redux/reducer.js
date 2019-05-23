@@ -3,12 +3,6 @@ import * as actionTypes from "./action-types";
 export const initialState = {
   isOpenedAddTodoListDialog: false,
   isOpenedEditTodoListDialog: false,
-  tempEvent: {
-    title: "New Event",
-    start: new Date().toISOString(),
-    end: new Date().toISOString(),
-    calendarId: 0
-  },
   tempTodoList: { title: "New ToDo List" },
   currentTodoList: null,
   todoLists: [],
@@ -18,7 +12,7 @@ export const initialState = {
   UPD: false
 };
 
-const layoutManager = (state = initialState, action) => {
+const todos = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_ADD_TODOLIST_DIALOG:
       return {
@@ -76,4 +70,4 @@ const layoutManager = (state = initialState, action) => {
   }
 };
 
-export default layoutManager;
+export default todos;
