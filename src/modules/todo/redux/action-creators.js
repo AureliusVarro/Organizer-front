@@ -73,7 +73,7 @@ export const addTodoList = todoListData => dispatch =>
     }
   });
 
-export const editTodoList = todoList => dispatch =>
+export const editTodoList = todoList => (dispatch, getState) =>
   dispatch({
     [RSAA]: {
       method: "PUT",
