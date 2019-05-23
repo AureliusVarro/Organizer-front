@@ -181,6 +181,8 @@ export const editTodo = todo => (dispatch, getState) =>
           payload: (action, state, res) =>
             getJSON(res).then(json => {
               dispatch(getTodos(getState().todos.currentTodoList.id));
+              if (todo.id == getState().todos.currentTodo.id)
+                dispatch(onCurrentTodoUpdated(todo));
             })
         },
         actionTypes.EDIT_TODO_FAILURE
