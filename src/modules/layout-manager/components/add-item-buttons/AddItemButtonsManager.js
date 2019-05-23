@@ -1,5 +1,6 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import { Button, Fab } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
 import internalUrls from "../../../../common/constants/internal-urls";
 
@@ -12,33 +13,57 @@ const AddItemButtonsManager = ({
 }) => {
   if (pathname === internalUrls.HOME.path) {
     return (
-      <Button onClick={onAddEventClick} color="inherit">
-        Add Event
-      </Button>
+      <Fab
+        variant="extended"
+        onClick={onAddEventClick}
+        color="secondary"
+        style={{ margin: "20px" }}
+      >
+        <AddIcon />
+        {" Add Event  "}
+      </Fab>
     );
   }
 
   if (pathname === internalUrls.TODO.path) {
     return (
-      <Button onClick={onAddTodoClick} color="inherit">
-        Add Todo
-      </Button>
+      <Fab
+        variant="extended"
+        onClick={onAddTodoClick}
+        color="secondary"
+        style={{ margin: "20px" }}
+      >
+        <AddIcon />
+        {"  Add Todo  "}
+      </Fab>
     );
   }
 
   if (pathname === internalUrls.NOTES.path) {
     return (
-      <Button onClick={onAddNoteClick} color="inherit">
-        Add Note
-      </Button>
+      <Fab
+        variant="extended"
+        onClick={onAddNoteClick}
+        color="secondary"
+        style={{ margin: "20px" }}
+      >
+        <AddIcon />
+        {"  Add Note  "}
+      </Fab>
     );
   }
 
   if (pathname === internalUrls.CONTACTS.path) {
     return (
-      <Button onClick={onAddContactClick} color="inherit">
-        Add Contact
-      </Button>
+      <Fab
+        variant="extended"
+        onClick={onAddContactClick}
+        color="secondary"
+        style={{ margin: "20px" }}
+      >
+        <AddIcon />
+        {"Add Contact"}
+      </Fab>
     );
   }
 

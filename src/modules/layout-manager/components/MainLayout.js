@@ -173,13 +173,14 @@ class MainLayout extends React.Component {
               The Organizer
             </Typography>
 
-            <AddItemButtonsManager
-              pathname={pathname}
-              onAddEventClick={onToggleAddEventDialog}
-              onAddTodoClick={this.handleAddTodo}
-              onAddNoteClick={this.handleAddNote}
-              onAddContactClick={onToggleAddContactDialog}
-            />
+            <Typography
+              noWrap
+              variant="h6"
+              color="inherit"
+              className={classes.dateTime}
+            >
+              {moment().format("MMM DD, YYYY")}
+            </Typography>
 
             <Button
               aria-owns={isOpenUserMenu ? "menu-appbar" : undefined}
@@ -226,14 +227,13 @@ class MainLayout extends React.Component {
             })}
           >
             {isOpenedSidebar && (
-              <Typography
-                noWrap
-                variant="h6"
-                color="default"
-                className={classes.dateTime}
-              >
-                {moment().format("MMM DD, YYYY")}
-              </Typography>
+              <AddItemButtonsManager
+                pathname={pathname}
+                onAddEventClick={onToggleAddEventDialog}
+                onAddTodoClick={this.handleAddTodo}
+                onAddNoteClick={this.handleAddNote}
+                onAddContactClick={onToggleAddContactDialog}
+              />
             )}
 
             <Divider />
