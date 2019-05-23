@@ -18,13 +18,14 @@ const styles = theme => ({
   paper: {
     margin: "0",
     padding: theme.spacing.unit * 2,
-    maxHeight: "93%",
-    height: "93%",
+    maxHeight: "95%",
+    height: "95%",
     color: theme.palette.text.secondary,
     overflow: "auto"
   },
   notePaperGrid: {
-    maxHeight: "98vh"
+    maxHeight: "95vh",
+    height: "95vh"
   }
 });
 

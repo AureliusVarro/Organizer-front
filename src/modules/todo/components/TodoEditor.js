@@ -21,6 +21,9 @@ const styles = theme => ({
   notePaperGrid: {
     height: "100%"
   },
+  descriptionContainer: {
+    maxHeight: "50%"
+  },
   indent: {
     marginLeft: "32px"
   }
@@ -108,7 +111,7 @@ class TodoEditor extends React.Component {
               ))}
           </TextField>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} className={this.props.classes.descriptionContainer}>
           <TextField
             id="note-description"
             label="Todo Description"
@@ -116,8 +119,8 @@ class TodoEditor extends React.Component {
             multiline
             fullWidth
             margin="dense"
-            rows={18}
-            rowsMax={18}
+            rows={19}
+            rowsMax={19}
             value={this.props.currentTodo.text}
             onChange={this.handleDescriptionChange}
           />

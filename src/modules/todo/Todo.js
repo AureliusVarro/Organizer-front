@@ -8,6 +8,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListSubheader,
   Button
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
@@ -19,7 +20,16 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     maxHeight: "95%",
     height: "95%",
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
+  },
+  listsContainer: {
+    maxHeight: "80vh",
+    height: "80vh",
+    overflow: "auto"
+  },
+  list: {
+    maxHeight: "50%",
+    height: "50%",
     overflow: "auto"
   },
   todoPaperGrid: {
@@ -72,13 +82,17 @@ class Todo extends React.Component {
         <Grid item xs={6} className={classes.todoPaperGrid}>
           <Paper className={classes.paper}>
             <Typography variant="h4">
-              {currentTodoList ? currentTodoList.title : "Loading..."}
+              {currentTodoList
+                ? currentTodoList.title
+                : "No Todo List Selected"}
             </Typography>
             <Divider />
             {activeTodos[0] || doneTodos[0] ? (
-              <React.Fragment>
-                <Typography>Active todos</Typography>
-                <List>
+              <div className={classes.listsContainer}>
+                <List className={classes.list}>
+                  <ListSubheader>
+                    <Typography variant="h5">Active todos</Typography>
+                  </ListSubheader>
                   {activeTodos.map(item => (
                     <ListItem
                       key={item.id}
@@ -90,8 +104,10 @@ class Todo extends React.Component {
                     </ListItem>
                   ))}
                 </List>
-                <Typography>Done todos</Typography>
-                <List>
+                <List className={classes.list}>
+                  <ListSubheader>
+                    <Typography variant="h5">Done todos</Typography>
+                  </ListSubheader>
                   {doneTodos.map(item => (
                     <ListItem
                       key={item.id}
@@ -103,7 +119,7 @@ class Todo extends React.Component {
                     </ListItem>
                   ))}
                 </List>
-              </React.Fragment>
+              </div>
             ) : currentTodoList ? (
               <React.Fragment>
                 <Typography>
