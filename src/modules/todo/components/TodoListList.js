@@ -35,7 +35,7 @@ const styles = theme => ({
 class TodoListList extends React.Component {
   handleUpdateCurrentTodoList = item => event => {
     this.props.onCurrentTodoListUpdated(item);
-    this.props.getTodos(item);
+    this.props.getTodos(item.id);
   };
 
   toggleEditTodoListDialog = item => event => {

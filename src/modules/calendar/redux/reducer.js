@@ -4,11 +4,12 @@ import { getCalendars } from "./action-creators";
 export const initialState = {
   isOpenedAddEventDialog: false,
   isOpenedAddCalendarDialog: false,
+  isOpenedEditEventDialog: false,
   isOpenedEditCalendarDialog: false,
   tempEvent: {
     title: "New Event",
-    start: new Date().toISOString(),
-    end: new Date().toISOString(),
+    start: new Date(),
+    end: new Date(),
     calendarId: 0
   },
   tempCalendar: { title: "New Calendar", isDisplayed: false },
@@ -31,6 +32,12 @@ const layoutManager = (state = initialState, action) => {
         isOpenedAddCalendarDialog: !state.isOpenedAddCalendarDialog
       };
 
+    case actionTypes.TOGGLE_EDIT_EVENT_DIALOG:
+      return {
+        ...state,
+        isOpenedEditEventDialog: !state.isOpenedEditEventDialog
+      };
+
     case actionTypes.TOGGLE_EDIT_CALENDAR_DIALOG:
       return {
         ...state,
@@ -47,26 +54,72 @@ const layoutManager = (state = initialState, action) => {
       return { ...state, calendars: action.payload };
 
     case actionTypes.ADD_CALENDAR_SUCCESS:
-      return { ...state, isOpenedAddCalendarDialog: false };
+      return { ...state, isOpenedAddCalendarDialog: false, tempCalendar: null };
 
     case actionTypes.EDIT_CALENDAR_SUCCESS:
-      return { ...state, isOpenedEditCalendarDialog: false };
-
-    case actionTypes.DELETE_CALENDAR_SUCCESS:
-      return { ...state, isOpenedEditCalendarDialog: false };
-
-    case actionTypes.CLEAR_EVENTS:
-      return { ...state, events: [] };
-
-    case actionTypes.GET_EVENTS_SUCCESS:
       return {
         ...state,
-        events: state.events.concat(action.payload),
+        isOpenedEditCalendarDialog: false,
+        tempCalendar: null
+      };
+
+    case actionTypes.DELETE_CALENDAR_SUCCESS:
+      return {
+        ...state,
+        isOpenedEditCalendarDialog: false,
+        tempCalendar: null
+      };
+
+    case actionTypes.CLEAR_EVENTS:
+      return { ...state, events: [], tempEvent: null };
+
+    case actionTypes.GET_EVENTS_SUCCESS:
+      let tempEvents = action.payload || [];
+      tempEvents.map(item => {
+        item.start = new Date(item.start);
+        item.end = new Date(item.end);
+      });
+      return {
+        ...state,
+        events: tempEvents,
         UPD: !state.UPD
       };
 
     case actionTypes.ADD_EVENT_SUCCESS:
-      return { ...state, isOpenedAddEventDialog: false };
+      return {
+        ...state,
+        isOpenedAddEventDialog: false,
+        tempEvent: {
+          title: "New Event",
+          start: new Date(),
+          end: new Date(),
+          calendarId: 0
+        }
+      };
+
+    case actionTypes.EDIT_EVENT_SUCCESS:
+      return {
+        ...state,
+        isOpenedEditEventDialog: false,
+        tempEvent: {
+          title: "New Event",
+          start: new Date(),
+          end: new Date(),
+          calendarId: 0
+        }
+      };
+
+    case actionTypes.DELETE_EVENT_SUCCESS:
+      return {
+        ...state,
+        isOpenedEditEventDialog: false,
+        tempEvent: {
+          title: "New Event",
+          start: new Date(),
+          end: new Date(),
+          calendarId: 0
+        }
+      };
 
     default:
       return state;

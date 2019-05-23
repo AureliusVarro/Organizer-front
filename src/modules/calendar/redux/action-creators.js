@@ -16,6 +16,10 @@ export const onToggleEditCalendarDialog = () => ({
   type: actionTypes.TOGGLE_EDIT_CALENDAR_DIALOG
 });
 
+export const onToggleEditEventDialog = () => ({
+  type: actionTypes.TOGGLE_EDIT_EVENT_DIALOG
+});
+
 export const onTempEventUpdated = tempEventData => ({
   type: actionTypes.UPDATE_TEMP_EVENT,
   payload: tempEventData || {
@@ -51,7 +55,7 @@ export const getCalendars = () => dispatch =>
           payload: (action, state, res) =>
             getJSON(res).then(json => {
               dispatch(saveCalendars(json));
-              dispatch(getAllEvents());
+              dispatch(getEvents());
             })
         },
         actionTypes.GET_CALENDARS_FAILURE
@@ -125,11 +129,11 @@ export const clearEvents = () => ({
   type: actionTypes.CLEAR_EVENTS
 });
 
-export const getEvents = calendarId => dispatch =>
+export const getEvents = () => dispatch =>
   dispatch({
     [RSAA]: {
       method: "GET",
-      endpoint: apiUrls.GET_EVENTS + "/" + calendarId,
+      endpoint: apiUrls.GET_EVENTS,
       headers: jsonRequestHeader,
       types: [
         actionTypes.GET_EVENTS_REQUEST,
@@ -139,20 +143,11 @@ export const getEvents = calendarId => dispatch =>
     }
   });
 
-export const getAllEvents = () => (dispatch, getState) => {
-  dispatch(clearEvents());
-  if (getState().calendar.calendars[0]) {
-    let checkedCalenderIds = [];
-    getState().calendar.calendars.map(item => {
-      if (item.isDisplayed) checkedCalenderIds.push(item.id);
-    });
-    checkedCalenderIds.map(item => {
-      dispatch(getEvents(item));
-    });
-  }
-};
-
-export const addEvent = eventData => dispatch =>
+export const addEvent = eventData => dispatch => {
+  console.log("1: ", eventData);
+  eventData.start = eventData.start.toISOString();
+  eventData.end = eventData.end.toISOString();
+  console.log("2: ", eventData);
   dispatch({
     [RSAA]: {
       method: "POST",
@@ -170,6 +165,48 @@ export const addEvent = eventData => dispatch =>
             })
         },
         actionTypes.ADD_EVENT_FAILURE
+      ]
+    }
+  });
+};
+
+export const editEvent = event => dispatch =>
+  dispatch({
+    [RSAA]: {
+      method: "PUT",
+      endpoint: apiUrls.EDIT_EVENT,
+      body: JSON.stringify(event),
+      headers: jsonRequestHeader,
+      types: [
+        actionTypes.EDIT_EVENT_REQUEST,
+        {
+          type: actionTypes.EDIT_EVENT_SUCCESS,
+          payload: (action, state, res) =>
+            getJSON(res).then(json => {
+              dispatch(getCalendars());
+            })
+        },
+        actionTypes.EDIT_EVENT_FAILURE
+      ]
+    }
+  });
+
+export const deleteEvent = event => dispatch =>
+  dispatch({
+    [RSAA]: {
+      method: "DELETE",
+      endpoint: apiUrls.DELETE_EVENT + "/" + event.id,
+      headers: jsonRequestHeader,
+      types: [
+        actionTypes.DELETE_EVENT_REQUEST,
+        {
+          type: actionTypes.DELETE_EVENT_SUCCESS,
+          payload: (action, state, res) =>
+            getJSON(res).then(json => {
+              dispatch(getCalendars());
+            })
+        },
+        actionTypes.DELETE_EVENT_FAILURE
       ]
     }
   });

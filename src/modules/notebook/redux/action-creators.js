@@ -73,7 +73,7 @@ export const addNotebook = notebookData => dispatch =>
     }
   });
 
-export const editNotebook = notebook => dispatch =>
+export const editNotebook = notebook => (dispatch, getState) =>
   dispatch({
     [RSAA]: {
       method: "PUT",
@@ -87,6 +87,8 @@ export const editNotebook = notebook => dispatch =>
           payload: (action, state, res) =>
             getJSON(res).then(json => {
               dispatch(getNotebooks());
+              console.log(json);
+              //TODO: handle current notebook editing
             })
         },
         actionTypes.EDIT_NOTEBOOK_FAILURE

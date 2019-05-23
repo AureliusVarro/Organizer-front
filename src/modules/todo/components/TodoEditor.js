@@ -73,12 +73,16 @@ class TodoEditor extends React.Component {
             onChange={this.handleTitleChange}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Checkbox
-            checked={this.props.currentTodo.isDone}
-            onChange={this.handleIsDoneChange}
-          />
-          <Typography> Is Done </Typography>
+        <Grid item container xs={12}>
+          <Grid item xs={3}>
+            <Checkbox
+              checked={this.props.currentTodo.isDone}
+              onChange={this.handleIsDoneChange}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <Typography> Is Done </Typography>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <TextField

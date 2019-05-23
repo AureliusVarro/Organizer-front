@@ -5,6 +5,7 @@ import {
   onToggleAddCalendarDialog,
   onToggleAddEventDialog,
   onToggleEditCalendarDialog,
+  onToggleEditEventDialog,
   onTempCalendarUpdated,
   onTempEventUpdated,
   getCalendars,
@@ -13,7 +14,8 @@ import {
   deleteCalendar,
   getEvents,
   addEvent,
-  getAllEvents
+  editEvent,
+  deleteEvent
 } from "../redux/action-creators";
 
 import AddCalendarDialog from "./dialogs/AddCalendarDialog";
@@ -31,6 +33,7 @@ class CalendarDialogsContainer extends React.Component {
       onToggleAddCalendarDialog,
       onToggleAddEventDialog,
       onToggleEditCalendarDialog,
+      onToggleEditEventDialog,
       onTempCalendarUpdated,
       onTempEventUpdated,
       getCalendars,
@@ -39,6 +42,8 @@ class CalendarDialogsContainer extends React.Component {
       deleteCalendar,
       getEvents,
       addEvent,
+      editEvent,
+      deleteEvent,
 
       //state
       tempCalendar,
@@ -46,6 +51,7 @@ class CalendarDialogsContainer extends React.Component {
       isOpenedAddCalendarDialog,
       isOpenedEditCalendarDialog,
       isOpenedAddEventDialog,
+      isOpenedEditEventDialog,
       calendars
     } = this.props;
     return (
@@ -73,6 +79,15 @@ class CalendarDialogsContainer extends React.Component {
           isOpenedAddEventDialog={isOpenedAddEventDialog}
           calendars={calendars}
         />
+        <EditEventDialog
+          editEvent={editEvent}
+          deleteEvent={deleteEvent}
+          onToggleEditEventDialog={onToggleEditEventDialog}
+          onTempEventUpdated={onTempEventUpdated}
+          tempEvent={tempEvent}
+          isOpenedEditEventDialog={isOpenedEditEventDialog}
+          calendars={calendars}
+        />
       </React.Fragment>
     );
   }
@@ -82,6 +97,7 @@ const mapDispatchToProps = {
   onToggleAddCalendarDialog,
   onToggleAddEventDialog,
   onToggleEditCalendarDialog,
+  onToggleEditEventDialog,
   onTempCalendarUpdated,
   onTempEventUpdated,
   getCalendars,
@@ -90,7 +106,8 @@ const mapDispatchToProps = {
   deleteCalendar,
   getEvents,
   addEvent,
-  getAllEvents
+  editEvent,
+  deleteEvent
 };
 
 const mapStateToProps = state => ({

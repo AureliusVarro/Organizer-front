@@ -15,21 +15,12 @@ import {
   DatePicker
 } from "material-ui-pickers";
 
-import {
-  onToggleAddEventDialog,
-  onTempEventUpdated,
-  addEvent
-} from "../../redux/action-creators";
-
-class EditEventDialog extends React.Component {
-  state = {
-    open: false
-  };
-
-  handleDateChange = date => {
+export default class EditEventDialog extends React.Component {
+  handleDateChange = newDate => {
+    let date = new Date(newDate);
     let updTempEvent = this.props.tempEvent;
-    let tempStart = updTempEvent.start;
-    let tempEnd = updTempEvent.end;
+    let tempStart = new Date(updTempEvent.start);
+    let tempEnd = new Date(updTempEvent.end);
 
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -38,8 +29,8 @@ class EditEventDialog extends React.Component {
     tempStart.setFullYear(year, month, day);
     tempEnd.setFullYear(year, month, day);
 
-    updTempEvent.startDate = tempStart.toISOString();
-    updTempEvent.endDate = tempEnd.toISOString();
+    updTempEvent.start = tempStart.toISOString();
+    updTempEvent.end = tempEnd.toISOString();
 
     this.props.onTempEventUpdated(updTempEvent);
   };
@@ -52,14 +43,15 @@ class EditEventDialog extends React.Component {
   };
 
   handleStartTimeChange = date => {
+    console.log("handleStartTimeChange", date);
     let updTempEvent = this.props.tempEvent;
-    updTempEvent.startDate = date.toISOString();
+    updTempEvent.start = date;
     this.props.onTempEventUpdated(updTempEvent);
   };
 
   handleEndTimeChange = date => {
     let updTempEvent = this.props.tempEvent;
-    updTempEvent.endDate = date.toISOString();
+    updTempEvent.end = date;
     this.props.onTempEventUpdated(updTempEvent);
   };
 
@@ -83,21 +75,26 @@ class EditEventDialog extends React.Component {
 
   handleClose = () => {
     this.props.onTempEventUpdated(null);
-    this.props.onToggleAddEventDialog();
+    this.props.onToggleEditEventDialog();
   };
 
-  handleAddEvent = () => {
-    this.props.addEvent(this.props.tempEvent);
+  handleEditEvent = () => {
+    this.props.editEvent(this.props.tempEvent);
+  };
+
+  handleDeleteEvent = () => {
+    this.props.deleteEvent(this.props.tempEvent);
   };
 
   render() {
+    const { isOpenedEditEventDialog, tempEvent, calendars } = this.props;
     return (
       <Dialog
-        open={this.props.isOpenedAddEventDialog}
+        open={isOpenedEditEventDialog}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Event</DialogTitle>
         <DialogContent>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container spacing={8} direction="column">
@@ -108,7 +105,7 @@ class EditEventDialog extends React.Component {
                   id="name"
                   label="Event Name"
                   fullWidth
-                  value={this.props.tempEvent.title}
+                  value={tempEvent.title}
                   onChange={this.handleEventNameChange}
                 />
               </Grid>
@@ -117,12 +114,12 @@ class EditEventDialog extends React.Component {
                   id="select-calendar"
                   select
                   label="Select Calendar"
-                  value={this.props.tempEvent.calendarId}
+                  value={tempEvent.calendarId}
                   onChange={this.handleEventCalendarChange}
                   fullWidth
                   margin="dense"
                 >
-                  {this.props.calendars.map(calendar => (
+                  {calendars.map(calendar => (
                     <MenuItem key={calendar.id} value={calendar.id}>
                       {calendar.title}
                     </MenuItem>
@@ -133,7 +130,7 @@ class EditEventDialog extends React.Component {
                 <DatePicker
                   margin="normal"
                   label="Event Date"
-                  value={this.props.tempEvent.start}
+                  value={tempEvent.start}
                   onChange={this.handleDateChange}
                 />
               </Grid>
@@ -143,7 +140,7 @@ class EditEventDialog extends React.Component {
                     <TimePicker
                       margin="normal"
                       label="Start Time"
-                      value={this.props.tempEvent.start}
+                      value={tempEvent.start}
                       onChange={this.handleStartTimeChange}
                     />
                   </Grid>
@@ -151,7 +148,7 @@ class EditEventDialog extends React.Component {
                     <TimePicker
                       margin="normal"
                       label="End Time"
-                      value={this.props.tempEvent.end}
+                      value={tempEvent.end}
                       onChange={this.handleEndTimeChange}
                     />
                   </Grid>
@@ -165,7 +162,7 @@ class EditEventDialog extends React.Component {
                   multiline
                   fullWidth
                   margin="dense"
-                  value={this.props.tempEvent.description}
+                  value={tempEvent.description}
                   onChange={this.handleEventDescriptionChange}
                 />
               </Grid>
@@ -173,29 +170,17 @@ class EditEventDialog extends React.Component {
           </MuiPickersUtilsProvider>
         </DialogContent>
         <DialogActions>
+          <Button onClick={this.handleDeleteEvent} color="secondary">
+            Delete
+          </Button>
           <Button onClick={this.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={this.handleAddEvent} color="primary">
-            Add Event
+          <Button onClick={this.handleEditEvent} color="primary">
+            Edit Calendar
           </Button>
         </DialogActions>
       </Dialog>
     );
   }
 }
-
-const mapDispatchToProps = {
-  onToggleAddEventDialog,
-  onTempEventUpdated,
-  addEvent
-};
-
-const mapStateToProps = state => ({
-  ...state.calendars
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditEventDialog);

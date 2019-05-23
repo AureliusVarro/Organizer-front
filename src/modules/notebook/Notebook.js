@@ -10,7 +10,6 @@ import {
   ListItemText,
   ListSubheader
 } from "@material-ui/core";
-import { sizing, maxHeight } from "@material-ui/system";
 import { withStyles } from "@material-ui/core/styles";
 
 import NoteEditor from "./components/NoteEditor";

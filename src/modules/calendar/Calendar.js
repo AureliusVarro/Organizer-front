@@ -16,45 +16,28 @@ const DnDBigCalendar = withDragAndDrop(BigCalendar);
 class Calendar extends React.Component {
   constructor() {
     super();
-
-    this.state = {
-      events: [
-        {
-          id: 7,
-          title: "Lunch",
-          start: "2011-10-05T14:48:00.000Z",
-          end: new Date(2019, 4, 1, 13, 0, 0, 0),
-          desc: "Power lunch"
-        },
-        {
-          id: 8,
-          title: "Meeting",
-          start: new Date(2019, 4, 1, 14, 0, 0, 0),
-          end: new Date(2019, 4, 1, 15, 0, 0, 0)
-        },
-        {
-          id: 9,
-          title: "Happy Hour",
-          start: new Date(2019, 4, 1, 17, 0, 0, 0),
-          end: new Date(2019, 4, 1, 17, 30, 0, 0),
-          desc: "Most important meal of the day"
-        }
-      ]
-    };
   }
 
   onEventResize = eventProps => {
+    let updTempEvent = eventProps.event;
+    updTempEvent.start = eventProps.start;
+    updTempEvent.end = eventProps.end;
     console.log("onEventResize: ", eventProps);
+    this.props.editEvent(updTempEvent);
   };
 
   onEventDrop = eventProps => {
+    let updTempEvent = eventProps.event;
+    updTempEvent.start = eventProps.start;
+    updTempEvent.end = eventProps.end;
     console.log("onEventDrop: ", eventProps);
+    this.props.editEvent(updTempEvent);
   };
 
   handleSelectEventSlot = calendarProps => {
     let updTempEvent = this.props.tempEvent;
-    updTempEvent.start = calendarProps.start.toISOString();
-    updTempEvent.end = calendarProps.end.toISOString();
+    updTempEvent.start = calendarProps.start;
+    updTempEvent.end = calendarProps.end;
     console.log("handleSelectEventSlot: ", updTempEvent);
     this.props.onTempEventUpdated(updTempEvent);
     this.props.onToggleAddEventDialog();
@@ -62,6 +45,8 @@ class Calendar extends React.Component {
 
   handleSelectEvent = eventProps => {
     console.log("handleSelectEvent: ", eventProps);
+    this.props.onTempEventUpdated(eventProps);
+    this.props.onToggleEditEventDialog();
   };
 
   render() {

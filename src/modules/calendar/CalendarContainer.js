@@ -3,16 +3,20 @@ import Calendar from "./Calendar";
 
 import {
   onToggleAddEventDialog,
+  onToggleEditEventDialog,
   onTempEventUpdated,
-  getEvents
+  getEvents,
+  editEvent
 } from "./redux/action-creators";
 
 const mapStateToProps = state => ({ ...state.calendars });
 
 const mapDispatchToProps = {
   onToggleAddEventDialog,
+  onToggleEditEventDialog,
   onTempEventUpdated,
-  getEvents
+  getEvents,
+  editEvent
 };
 
 const CalendarContainer = connect(

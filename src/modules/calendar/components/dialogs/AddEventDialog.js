@@ -45,13 +45,13 @@ export default class AddEventDialog extends React.Component {
   handleStartTimeChange = date => {
     console.log("handleStartTimeChange", date);
     let updTempEvent = this.props.tempEvent;
-    updTempEvent.startTime = date;
+    updTempEvent.start = date;
     this.props.onTempEventUpdated(updTempEvent);
   };
 
   handleEndTimeChange = date => {
     let updTempEvent = this.props.tempEvent;
-    updTempEvent.endTime = date;
+    updTempEvent.end = date;
     this.props.onTempEventUpdated(updTempEvent);
   };
 
@@ -83,9 +83,10 @@ export default class AddEventDialog extends React.Component {
   };
 
   render() {
+    const { isOpenedAddEventDialog, tempEvent, calendars } = this.props;
     return (
       <Dialog
-        open={this.props.isOpenedAddEventDialog}
+        open={isOpenedAddEventDialog}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
       >
@@ -100,7 +101,7 @@ export default class AddEventDialog extends React.Component {
                   id="name"
                   label="Event Name"
                   fullWidth
-                  value={this.props.tempEvent.title}
+                  value={tempEvent.title}
                   onChange={this.handleEventNameChange}
                 />
               </Grid>
@@ -109,7 +110,11 @@ export default class AddEventDialog extends React.Component {
                   id="select-calendar"
                   select
                   label="Select Calendar"
-                  value={this.props.tempEvent.calendarId}
+                  value={
+                    tempEvent.calendarId == 0 && calendars[0]
+                      ? calendars[0].id
+                      : tempEvent.calendarId
+                  }
                   onChange={this.handleEventCalendarChange}
                   fullWidth
                   margin="dense"
@@ -125,7 +130,7 @@ export default class AddEventDialog extends React.Component {
                 <DatePicker
                   margin="normal"
                   label="Event Date"
-                  value={this.props.tempEvent.start}
+                  value={tempEvent.start}
                   onChange={this.handleDateChange}
                 />
               </Grid>
@@ -135,7 +140,7 @@ export default class AddEventDialog extends React.Component {
                     <TimePicker
                       margin="normal"
                       label="Start Time"
-                      value={this.props.tempEvent.start}
+                      value={tempEvent.start}
                       onChange={this.handleStartTimeChange}
                     />
                   </Grid>
@@ -157,7 +162,7 @@ export default class AddEventDialog extends React.Component {
                   multiline
                   fullWidth
                   margin="dense"
-                  value={this.props.tempEvent.description}
+                  value={tempEvent.description}
                   onChange={this.handleEventDescriptionChange}
                 />
               </Grid>

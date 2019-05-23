@@ -14,7 +14,9 @@ const apiUrls = {
 
   //Events api
   ADD_EVENT: `${API_PREFIX}/events/add`,
-  GET_EVENTS: `${API_PREFIX}/events/getAll`,
+  GET_EVENTS: `${API_PREFIX}/events/listofevents`,
+  EDIT_EVENT: `${API_PREFIX}/events/edit`,
+  DELETE_EVENT: `${API_PREFIX}/events/delete`,
 
   //Todo List api
   ADD_TODOLIST: `${API_PREFIX}/todolists/add`,
