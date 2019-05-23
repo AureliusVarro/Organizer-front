@@ -41,7 +41,11 @@ class CalendarList extends React.Component {
   };
 
   toggleEditCalendarDialog = item => event => {
-    this.props.onTempCalendarUpdated({ id: item.id, title: item.title });
+    this.props.onTempCalendarUpdated({
+      id: item.id,
+      title: item.title,
+      isDisplayed: item.isDisplayed
+    });
     this.props.onToggleEditCalendarDialog();
   };
 

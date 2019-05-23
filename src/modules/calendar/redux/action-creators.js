@@ -4,6 +4,8 @@ import * as actionTypes from "./action-types";
 import apiUrls from "../../../common/constants/api-urls";
 import { jsonRequestHeader } from "../../../common/constants/common";
 
+import { defaultEvent, defaultCalendar } from "../constants/defaults";
+
 export const onToggleAddCalendarDialog = () => ({
   type: actionTypes.TOGGLE_ADD_CALENDAR_DIALOG
 });
@@ -22,19 +24,12 @@ export const onToggleEditEventDialog = () => ({
 
 export const onTempEventUpdated = tempEventData => ({
   type: actionTypes.UPDATE_TEMP_EVENT,
-  payload: tempEventData || {
-    title: "New Event",
-    startTime: new Date().toISOString(),
-    endTime: new Date().toISOString(),
-    calendarId: 1
-  }
+  payload: tempEventData || defaultEvent
 });
 
 export const onTempCalendarUpdated = tempCalendarData => ({
   type: actionTypes.UPDATE_TEMP_CALENDAR,
-  payload: tempCalendarData || {
-    title: "New Calendar"
-  }
+  payload: tempCalendarData || defaultCalendar
 });
 
 export const saveCalendars = calendars => ({
@@ -170,7 +165,9 @@ export const addEvent = eventData => dispatch => {
   });
 };
 
-export const editEvent = event => dispatch =>
+export const editEvent = event => dispatch => {
+  event.start = event.start.toISOString();
+  event.end = event.end.toISOString();
   dispatch({
     [RSAA]: {
       method: "PUT",
@@ -190,6 +187,7 @@ export const editEvent = event => dispatch =>
       ]
     }
   });
+};
 
 export const deleteEvent = event => dispatch =>
   dispatch({

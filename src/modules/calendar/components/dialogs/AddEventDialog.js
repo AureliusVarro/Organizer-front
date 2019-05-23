@@ -15,6 +15,8 @@ import {
   DatePicker
 } from "material-ui-pickers";
 
+import { defaultEvent } from "../../constants/defaults";
+
 export default class AddEventDialog extends React.Component {
   handleDateChange = newDate => {
     let date = new Date(newDate);
@@ -74,7 +76,7 @@ export default class AddEventDialog extends React.Component {
   };
 
   handleClose = () => {
-    this.props.onTempEventUpdated(null);
+    this.props.onTempEventUpdated(defaultEvent);
     this.props.onToggleAddEventDialog();
   };
 

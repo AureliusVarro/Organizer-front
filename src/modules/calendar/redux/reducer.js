@@ -1,4 +1,5 @@
 import * as actionTypes from "./action-types";
+import { defaultEvent, defaultCalendar } from "../constants/defaults";
 import { getLocaleFromGMT } from "../../../common/utils/getLocaleFromGMT";
 
 export const initialState = {
@@ -6,13 +7,8 @@ export const initialState = {
   isOpenedAddCalendarDialog: false,
   isOpenedEditEventDialog: false,
   isOpenedEditCalendarDialog: false,
-  tempEvent: {
-    title: "New Event",
-    start: new Date(),
-    end: new Date(),
-    calendarId: 0
-  },
-  tempCalendar: { title: "New Calendar", isDisplayed: false },
+  tempEvent: defaultEvent,
+  tempCalendar: defaultCalendar,
   calendars: [],
   events: [],
   UPD: false
@@ -57,25 +53,22 @@ const layoutManager = (state = initialState, action) => {
       return {
         ...state,
         isOpenedAddCalendarDialog: false,
-        tempCalendar: { title: "New Calendar", isDisplayed: false }
+        tempCalendar: defaultCalendar
       };
 
     case actionTypes.EDIT_CALENDAR_SUCCESS:
       return {
         ...state,
         isOpenedEditCalendarDialog: false,
-        tempCalendar: { title: "New Calendar", isDisplayed: false }
+        tempCalendar: defaultCalendar
       };
 
     case actionTypes.DELETE_CALENDAR_SUCCESS:
       return {
         ...state,
         isOpenedEditCalendarDialog: false,
-        tempCalendar: { title: "New Calendar", isDisplayed: false }
+        tempCalendar: defaultCalendar
       };
-
-    case actionTypes.CLEAR_EVENTS:
-      return { ...state, events: [], tempEvent: null };
 
     case actionTypes.GET_EVENTS_SUCCESS:
       let tempEvents = action.payload || [];
@@ -93,36 +86,21 @@ const layoutManager = (state = initialState, action) => {
       return {
         ...state,
         isOpenedAddEventDialog: false,
-        tempEvent: {
-          title: "New Event",
-          start: new Date(),
-          end: new Date(),
-          calendarId: 0
-        }
+        tempEvent: defaultEvent
       };
 
     case actionTypes.EDIT_EVENT_SUCCESS:
       return {
         ...state,
         isOpenedEditEventDialog: false,
-        tempEvent: {
-          title: "New Event",
-          start: new Date(),
-          end: new Date(),
-          calendarId: 0
-        }
+        tempEvent: defaultEvent
       };
 
     case actionTypes.DELETE_EVENT_SUCCESS:
       return {
         ...state,
         isOpenedEditEventDialog: false,
-        tempEvent: {
-          title: "New Event",
-          start: new Date(),
-          end: new Date(),
-          calendarId: 0
-        }
+        tempEvent: defaultEvent
       };
 
     default:
