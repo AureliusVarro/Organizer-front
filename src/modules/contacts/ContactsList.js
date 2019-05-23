@@ -9,7 +9,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import {
   IconButton,
   Typography,
-  Grid,
+  Paper,
   Button,
   List,
   ListItem,
@@ -41,7 +41,15 @@ const styles = theme => ({
   indent: {
     marginLeft: "32px"
   },
-  margin: { margin: 0 }
+  margin: { margin: 0 },
+  paper: {
+    margin: "0",
+    padding: theme.spacing.unit * 2,
+    maxHeight: "99%",
+    height: "99%",
+    overflow: "auto",
+    color: theme.palette.text.secondary
+  }
 });
 
 class ContactsList extends React.Component {
@@ -73,63 +81,65 @@ class ContactsList extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <List className={classes.root}>
-        {this.props.contacts.map((item, index) => (
-          <div className={classes.indent} key={index}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar
-                  alt={item.name}
-                  src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y"
+      <Paper className={classes.paper}>
+        <List className={classes.root}>
+          {this.props.contacts.map((item, index) => (
+            <div className={classes.indent} key={index}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    alt={item.name}
+                    src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.name}
+                  secondary={
+                    <React.Fragment>
+                      <div>
+                        <Typography
+                          component="span"
+                          className={classes.inline}
+                          color="textPrimary"
+                        >
+                          {"Email: "}
+                        </Typography>
+                        {item.email}
+                      </div>
+                      <div>
+                        <Typography
+                          component="span"
+                          className={classes.inline}
+                          color="textPrimary"
+                        >
+                          {"Phone: "}
+                        </Typography>
+                        {item.phoneNumber}
+                      </div>
+                    </React.Fragment>
+                  }
                 />
-              </ListItemAvatar>
-              <ListItemText
-                primary={item.name}
-                secondary={
-                  <React.Fragment>
-                    <div>
-                      <Typography
-                        component="span"
-                        className={classes.inline}
-                        color="textPrimary"
-                      >
-                        {"Email: "}
-                      </Typography>
-                      {item.email}
-                    </div>
-                    <div>
-                      <Typography
-                        component="span"
-                        className={classes.inline}
-                        color="textPrimary"
-                      >
-                        {"Phone: "}
-                      </Typography>
-                      {item.phoneNumber}
-                    </div>
-                  </React.Fragment>
-                }
-              />
 
-              <ListItemSecondaryAction>
-                <IconButton
-                  aria-label="Edit"
-                  onClick={this.toggleEditContactDialog(item)}
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  aria-label="Edit"
-                  onClick={this.handleDeleteContact(item)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-            <Divider />
-          </div>
-        ))}
-      </List>
+                <ListItemSecondaryAction>
+                  <IconButton
+                    aria-label="Edit"
+                    onClick={this.toggleEditContactDialog(item)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    aria-label="Edit"
+                    onClick={this.handleDeleteContact(item)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+            </div>
+          ))}
+        </List>
+      </Paper>
     );
   }
 }

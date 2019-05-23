@@ -80,7 +80,9 @@ class Notebook extends React.Component {
                 subheader={
                   <ListSubheader>
                     <Typography variant="h4">
-                      {currentNotebook ? currentNotebook.title : "Loading..."}
+                      {currentNotebook
+                        ? currentNotebook.title
+                        : "No Notebook Selected"}
                     </Typography>
                     <Divider />
                   </ListSubheader>
@@ -99,7 +101,13 @@ class Notebook extends React.Component {
               </List>
             ) : currentNotebook ? (
               <React.Fragment>
-                <Typography>
+                <Typography variant="h4">
+                  {currentNotebook
+                    ? currentNotebook.title
+                    : "No Notebook Selected"}
+                </Typography>
+                <Divider />
+                <Typography variant="h6">
                   {"You don't hane any notes in this notebook"}
                 </Typography>
                 <Button
@@ -112,7 +120,9 @@ class Notebook extends React.Component {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <Typography>{"You don't hane any notebooks"}</Typography>
+                <Typography variant="h5">
+                  {"You don't hane any notebooks"}
+                </Typography>
                 <Button
                   variant="contained"
                   color="primary"

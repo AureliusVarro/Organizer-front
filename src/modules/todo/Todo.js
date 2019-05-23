@@ -92,6 +92,7 @@ class Todo extends React.Component {
                 <List className={classes.list}>
                   <ListSubheader>
                     <Typography variant="h5">Active todos</Typography>
+                    <Divider />
                   </ListSubheader>
                   {activeTodos.map(item => (
                     <ListItem
@@ -107,6 +108,7 @@ class Todo extends React.Component {
                 <List className={classes.list}>
                   <ListSubheader>
                     <Typography variant="h5">Done todos</Typography>
+                    <Divider />
                   </ListSubheader>
                   {doneTodos.map(item => (
                     <ListItem
@@ -122,8 +124,8 @@ class Todo extends React.Component {
               </div>
             ) : currentTodoList ? (
               <React.Fragment>
-                <Typography>
-                  {"You don't hane any todos in this todo lists"}
+                <Typography variant="h6">
+                  {"You don't hane any todos in this todo list"}
                 </Typography>
                 <Button
                   variant="contained"
@@ -135,7 +137,9 @@ class Todo extends React.Component {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <Typography>{"You don't hane any todo lists"}</Typography>
+                <Typography variant="h6">
+                  {"You don't hane any todo lists"}
+                </Typography>
                 <Button
                   variant="contained"
                   color="primary"
