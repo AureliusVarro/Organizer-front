@@ -26,6 +26,9 @@ const styles = theme => ({
   notePaperGrid: {
     maxHeight: "95vh",
     height: "95vh"
+  },
+  list: {
+    backgroundColor: theme.palette.background.paper
   }
 });
 
@@ -77,6 +80,7 @@ class Notebook extends React.Component {
           <Paper className={classes.paper}>
             {notes[0] !== undefined && notes[0] !== null ? (
               <List
+                className={classes.list}
                 subheader={
                   <ListSubheader>
                     <Typography variant="h4">

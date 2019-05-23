@@ -9,7 +9,8 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
-  Button
+  Button,
+  Checkbox
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import TodoEditor from "./components/TodoEditor";
@@ -22,19 +23,25 @@ const styles = theme => ({
     height: "95%",
     color: theme.palette.text.secondary
   },
-  listsContainer: {
+  list: {
     maxHeight: "80vh",
     height: "80vh",
-    overflow: "auto"
-  },
-  list: {
-    maxHeight: "50%",
-    height: "50%",
-    overflow: "auto"
+    overflow: "auto",
+    backgroundColor: theme.palette.background.paper
   },
   todoPaperGrid: {
     maxHeight: "95vh",
     height: "95vh"
+  },
+  ul: {
+    backgroundColor: "inherit",
+    padding: 0
+  },
+  listSection: {
+    backgroundColor: "inherit"
+  },
+  checkbox: {
+    padding: 0
   }
 });
 
@@ -56,6 +63,14 @@ class Todo extends React.Component {
       isDone: todo.isDone
     });
   };
+
+  handleIsDoneChange = item => event => {
+    console.log("item,", item);
+    console.log("event,", event.target);
+    item.isDone = event.target.checked;
+    this.props.editTodo(item);
+  };
+
   render() {
     const {
       //Actions
@@ -88,40 +103,61 @@ class Todo extends React.Component {
             </Typography>
             <Divider />
             {activeTodos[0] || doneTodos[0] ? (
-              <div className={classes.listsContainer}>
-                <List className={classes.list}>
-                  <ListSubheader>
-                    <Typography variant="h5">Active todos</Typography>
-                    <Divider />
-                  </ListSubheader>
-                  {activeTodos.map(item => (
-                    <ListItem
-                      key={item.id}
-                      button
-                      selected={currentTodo && currentTodo.id === item.id}
-                      onClick={event => this.handleSelectTodo(event, item)}
-                    >
-                      <ListItemText primary={item.title} />
-                    </ListItem>
-                  ))}
-                </List>
-                <List className={classes.list}>
-                  <ListSubheader>
-                    <Typography variant="h5">Done todos</Typography>
-                    <Divider />
-                  </ListSubheader>
-                  {doneTodos.map(item => (
-                    <ListItem
-                      key={item.id}
-                      button
-                      selected={currentTodo && currentTodo.id === item.id}
-                      onClick={event => this.handleSelectTodo(event, item)}
-                    >
-                      <ListItemText primary={item.title} />
-                    </ListItem>
-                  ))}
-                </List>
-              </div>
+              <List className={classes.list} subheader={<li />}>
+                <li className={classes.listSection}>
+                  <ul className={classes.ul}>
+                    <ListSubheader>
+                      <Typography variant="h5">Active todos</Typography>
+                      <Divider />
+                    </ListSubheader>
+                    {activeTodos.map(item => (
+                      <ListItem
+                        key={item.id}
+                        button
+                        selected={currentTodo && currentTodo.id === item.id}
+                        onClick={event => this.handleSelectTodo(event, item)}
+                      >
+                        <Checkbox
+                          className={classes.checkbox}
+                          onChange={this.handleIsDoneChange(item)}
+                          checked={item.isDone}
+                          tabIndex={-1}
+                          disableRipple
+                          color="primary"
+                        />
+                        <ListItemText primary={item.title} />
+                      </ListItem>
+                    ))}
+                  </ul>
+                </li>
+
+                <li className={classes.listSection}>
+                  <ul className={classes.ul}>
+                    <ListSubheader>
+                      <Typography variant="h5">Done todos</Typography>
+                      <Divider />
+                    </ListSubheader>
+                    {doneTodos.map(item => (
+                      <ListItem
+                        key={item.id}
+                        button
+                        selected={currentTodo && currentTodo.id === item.id}
+                        onClick={event => this.handleSelectTodo(event, item)}
+                      >
+                        <Checkbox
+                          className={classes.checkbox}
+                          onChange={this.handleIsDoneChange(item)}
+                          checked={item.isDone}
+                          tabIndex={-1}
+                          disableRipple
+                          color="primary"
+                        />
+                        <ListItemText primary={item.title} />
+                      </ListItem>
+                    ))}
+                  </ul>
+                </li>
+              </List>
             ) : currentTodoList ? (
               <React.Fragment>
                 <Typography variant="h6">

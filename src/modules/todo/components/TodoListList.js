@@ -29,6 +29,9 @@ const styles = theme => ({
   listItem: {
     paddingTop: 0,
     paddingBottom: 0
+  },
+  list: {
+    backgroundColor: theme.palette.background.paper
   }
 });
 
@@ -46,7 +49,7 @@ class TodoListList extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <List>
+      <List className={classes.List}>
         <ListSubheader>
           <Button
             fullWidth
