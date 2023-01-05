@@ -24,7 +24,7 @@
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.0",
     "react-router-redux": "^4.0.8",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^5.0.1",
     "react-transition-group": "^2.9.0",
     "redux": "^4.0.1",
     "redux-api-middleware": "^3.0.1",
